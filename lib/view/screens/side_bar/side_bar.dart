@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:quiz_app/widgets/card.dart';
 
 class Sidebar extends StatefulWidget {
@@ -11,7 +10,7 @@ class Sidebar extends StatefulWidget {
 }
 
 class _SidebarState extends State<Sidebar> {
-  DateTime _selectedDate = DateTime.now(); // Initialize with the current date
+  DateTime _selectedDate = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
@@ -108,57 +107,21 @@ class _SidebarState extends State<Sidebar> {
                   ),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(left: 20, right: 20),
+              const Padding(
+                padding: EdgeInsets.only(left: 20, right: 20),
                 child: Column(
                   children: [
-                    const CardWidget(
+                    CardWidget(
                       title: "Certified Database-Specailty",
                       color: Colors.black,
                     ),
-                    Container(
-                      height: 60,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: GestureDetector(
-                        onTap: _pickDate,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 20),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const Text(
-                                "Exam date",
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              const Spacer(),
-                              Padding(
-                                padding: const EdgeInsets.all(12.0),
-                                child: Text(
-                                  DateFormat('MMMM dd yyyy')
-                                      .format(_selectedDate),
-                                  style: const TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.orange,
-                                  ),
-                                ),
-                              ),
-                              const Icon(
-                                Icons.arrow_forward_ios_outlined,
-                                color: Colors.grey,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
+                    CardWidget(
+                      title: "Exam date",
+                      color: Colors.black,
+                      showIcon: true,
+                      datePicker: true,
                     ),
-                    const CardWidget(
+                    CardWidget(
                       title: "Reset progress",
                       color: Colors.orange,
                       showIcon: false,
@@ -179,52 +142,18 @@ class _SidebarState extends State<Sidebar> {
                   ),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(
+              const Padding(
+                padding: EdgeInsets.only(
                   left: 20,
                   right: 20,
                   top: 20,
                 ),
                 child: Column(
                   children: [
-                    Container(
-                      height: 60,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: const Row(
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: Text(
-                              "Exam mode",
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                          Spacer(),
-                          Text(
-                            "Exam-style",
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.orange,
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.symmetric(
-                              horizontal: 15,
-                            ),
-                            child: Icon(
-                              Icons.arrow_forward_ios,
-                              color: Colors.grey,
-                            ),
-                          ),
-                        ],
-                      ),
+                    CardWidget(
+                      title: "Exam mode",
+                      color: Colors.black,
+                      showText: true,
                     ),
                     const CardWidget(
                       title: "Vibration",

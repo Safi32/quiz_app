@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class CardWidget extends StatefulWidget {
   final String title;
@@ -6,6 +7,8 @@ class CardWidget extends StatefulWidget {
   final Color color;
   final bool showToggle;
   final bool initialToggleState;
+  final bool showText;
+  final bool datePicker; 
 
   const CardWidget({
     required this.title,
@@ -13,6 +16,8 @@ class CardWidget extends StatefulWidget {
     required this.color,
     this.showToggle = false,
     this.initialToggleState = false,
+    this.showText = false,
+    this.datePicker = false,
     super.key,
   });
 
@@ -22,6 +27,7 @@ class CardWidget extends StatefulWidget {
 
 class _CardWidgetState extends State<CardWidget> {
   bool isToggle = false;
+  DateTime selectedDate = DateTime.now();
 
   @override
   void initState() {
@@ -33,6 +39,20 @@ class _CardWidgetState extends State<CardWidget> {
     setState(() {
       isToggle = newValue;
     });
+  }
+
+  void _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: selectedDate,
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2101),
+    );
+    if (picked != null && picked != selectedDate) {
+      setState(() {
+        selectedDate = picked;
+      });
+    }
   }
 
   @override
@@ -56,17 +76,62 @@ class _CardWidgetState extends State<CardWidget> {
                   color: widget.color,
                 ),
               ),
-              if (widget.showIcon)
-                const Icon(
-                  Icons.arrow_forward_ios,
-                  color: Colors.grey,
-                ),
-              if (widget.showToggle)
-                Switch(
-                  value: isToggle,
-                  onChanged: toggleSwitch,
-                  activeColor: Colors.grey,
-                ),
+              Row(
+                children: [
+                  if (widget.showText && !widget.datePicker)
+                    const Padding(
+                      padding: EdgeInsets.only(right: 8.0),
+                      child: Text(
+                        'Exam-style',
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: Colors.orange,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  if (widget.datePicker)
+                    GestureDetector(
+                      onTap: () => _selectDate(context),
+                      child: Row(
+                        children: [
+                          if (widget.showText)
+                            const Padding(
+                              padding: EdgeInsets.only(right: 8.0),
+                              child: Text(
+                                'Exam-style',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  color: Colors.orange,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          Text(
+                            DateFormat.yMMMd().format(selectedDate),
+                            style: const TextStyle(
+                              fontSize: 18,
+                              color: Colors.orange,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          const SizedBox(width: 8),
+                        ],
+                      ),
+                    ),
+                  if (widget.showIcon)
+                    const Icon(
+                      Icons.arrow_forward_ios,
+                      color: Colors.grey,
+                    ),
+                  if (widget.showToggle)
+                    Switch(
+                      value: isToggle,
+                      onChanged: toggleSwitch,
+                      activeColor: Colors.grey,
+                    ),
+                ],
+              ),
             ],
           ),
         ),

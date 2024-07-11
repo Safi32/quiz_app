@@ -1,11 +1,77 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
-import 'package:quiz_app/widgets/curved_loading_bar.dart';
 import 'package:quiz_app/widgets/progress.dart';
 import 'package:quiz_app/widgets/progress_line.dart';
 import 'package:quiz_app/widgets/progress_report.dart';
 
+class CurvedLoadingBar extends StatefulWidget {
+  final double value;
+  final int size;
+  final Color color;
+
+  const CurvedLoadingBar({
+    Key? key,
+    required this.value,
+    required this.size,
+    required this.color,
+  }) : super(key: key);
+
+  @override
+  _CurvedLoadingBarState createState() => _CurvedLoadingBarState();
+}
+
+class _CurvedLoadingBarState extends State<CurvedLoadingBar>
+    with SingleTickerProviderStateMixin {
+  @override
+  Widget build(BuildContext context) {
+    return CustomPaint(
+      painter: CurvedLoadingBarPainter(widget.value, widget.size, widget.color),
+      child: const SizedBox(
+        width: 200,
+        height: 100,
+      ),
+    );
+  }
+}
+
+class CurvedLoadingBarPainter extends CustomPainter {
+  final double progress;
+  final int circleSize;
+  final Color color;
+
+  CurvedLoadingBarPainter(this.progress, this.circleSize, this.color);
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    Paint paint = Paint()
+      ..color = color
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 13.0
+      ..strokeCap = StrokeCap.round;
+
+    double radius = min(size.width / circleSize, size.height);
+    Offset center = Offset(size.width / 2, size.height / 2);
+    double startAngle = pi;
+    double sweepAngle = pi * progress;
+
+    canvas.drawArc(
+      Rect.fromCircle(center: center, radius: radius),
+      startAngle,
+      sweepAngle,
+      false,
+      paint,
+    );
+  }
+
+  @override
+  bool shouldRepaint(CurvedLoadingBarPainter oldDelegate) {
+    return oldDelegate.progress != progress;
+  }
+}
+
 class StatsScreen extends StatefulWidget {
-  const StatsScreen({super.key});
+  const StatsScreen({Key? key}) : super(key: key);
 
   @override
   State<StatsScreen> createState() => _StatsScreenState();
@@ -153,57 +219,103 @@ class _StatsScreenState extends State<StatsScreen> {
               ),
             ],
           ),
-          const SizedBox(
-            height: 20,
-          ),
-          const Column(
-            children: [
-              Stack(
-                children: [
-                  CurvedLoadingBar(
-                    value: 0.2,
-                    size: 2,
-                    color: Colors.orange,
+          const Expanded(
+            child: Stack(
+              clipBehavior: Clip.none,
+              children: [
+                Align(
+                  alignment: Alignment.center,
+                  child: Stack(
+                    children: [
+                      Align(
+                        alignment: Alignment.center,
+                        child: SizedBox(
+                          width: 200,
+                          height: 100,
+                          child: CurvedLoadingBar(
+                            value: 0.1,
+                            size: 2,
+                            color: Colors.orange,
+                          ),
+                        ),
+                      ),
+                      Align(
+                        alignment: Alignment.center,
+                        child: SizedBox(
+                          width: 200,
+                          height: 100,
+                          child: CurvedLoadingBar(
+                            value: 1,
+                            size: 1,
+                            color: Color.fromARGB(120, 255, 153, 0),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                  CurvedLoadingBar(
-                    value: 1,
-                    size: 1,
-                    color: Color.fromARGB(120, 255, 153, 0),
+                ),
+                Align(
+                  alignment: Alignment.center,
+                  child: Stack(
+                    children: [
+                      Align(
+                        child: SizedBox(
+                          width: 170,
+                          height: 68,
+                          child: CurvedLoadingBar(
+                            value: 0,
+                            size: 2,
+                            color: Colors.lightBlue,
+                          ),
+                        ),
+                      ),
+                      Align(
+                        alignment: Alignment.center,
+                        child: SizedBox(
+                          width: 170,
+                          height: 68,
+                          child: CurvedLoadingBar(
+                            value: 1,
+                            size: 2,
+                            color: Color.fromARGB(120, 0, 102, 255),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-              Stack(
-                children: [
-                  CurvedLoadingBar(
-                    value: 0,
-                    size: 2,
-                    color: Colors.lightBlue,
+                ),
+                Align(
+                  alignment: Alignment.center,
+                  child: Stack(
+                    children: [
+                      Align(
+                        child: SizedBox(
+                          width: 120,
+                          height: 40,
+                          child: CurvedLoadingBar(
+                            value: 0.1,
+                            size: 2,
+                            color: Color.fromARGB(255, 0, 102, 255),
+                          ),
+                        ),
+                      ),
+                      Align(
+                        alignment: Alignment.center,
+                        child: SizedBox(
+                          width: 120,
+                          height: 40,
+                          child: CurvedLoadingBar(
+                            value: 2,
+                            size: 1,
+                            color: Color.fromARGB(120, 47, 0, 255),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                  CurvedLoadingBar(
-                    value: 1,
-                    size: 1,
-                    color: Color.fromARGB(120, 0, 102, 255),
-                  ),
-                ],
-              ),
-              Stack(
-                children: [
-                  CurvedLoadingBar(
-                    value: 0.1,
-                    size: 2,
-                    color: Color.fromARGB(255, 0, 102, 255),
-                  ),
-                  CurvedLoadingBar(
-                    value: 1,
-                    size: 1,
-                    color: Color.fromARGB(120, 47, 0, 255),
-                  ),
-                ],
-              ),
-            ],
-          ),
-          const SizedBox(
-            height: 60,
+                ),
+              ],
+            ),
           ),
           Expanded(
             child: ListView.builder(

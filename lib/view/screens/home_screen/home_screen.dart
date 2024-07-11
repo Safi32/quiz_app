@@ -53,36 +53,72 @@ class HomePage extends StatelessWidget {
                 ],
               ),
             ),
-            Container(
-              margin: const EdgeInsets.only(
-                left: 20,
-                right: 20,
+            // Padding(
+            //   padding: const EdgeInsets.symmetric(
+            //     horizontal: 20,
+            //   ),
+            //   child: ElevatedButton(
+            //     style: ElevatedButton.styleFrom(
+            //       padding: EdgeInsets.symmetric(
+            //         vertical: 10,
+            //         horizontal: MediaQuery.of(context).size.width / 5.8,
+            //       ),
+            //       backgroundColor: Colors.orange,
+            //     ),
+            //     onPressed: () {
+            //       Navigator.pushNamed(context, SubscriptionScreen.routeName);
+            //     },
+            //     child: const Text(
+            //       "Unlock all questions",
+            //       style: TextStyle(
+            //         color: Colors.white,
+            //         fontSize: 25,
+            //       ),
+            //     ),
+            //   ),
+            // ),
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 20,
               ),
-              height: 80,
-              width: MediaQuery.of(context).size.width,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.orange,
-                ),
-                onPressed: () {
-                  Navigator.pushNamed(context, SubscriptionScreen.routeName);
-                },
-                child: const Text(
-                  "Unlock all questions",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 25,
+              child: SizedBox(
+                width: MediaQuery.of(context).size.width,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    padding: EdgeInsets.symmetric(
+                      vertical: 10,
+                      horizontal: MediaQuery.of(context).size.width / 5.8,
+                    ),
+                    backgroundColor: Colors.orange,
+                  ),
+                  onPressed: () {
+                    Navigator.pushNamed(context, SubscriptionScreen.routeName);
+                  },
+                  child: const Text(
+                    "Unlock all questions",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 25,
+                    ),
                   ),
                 ),
               ),
             ),
+            const SizedBox(
+              height: 8,
+            ),
             Padding(
-              padding: const EdgeInsets.all(20.0),
+              padding: const EdgeInsets.symmetric(
+                horizontal: 20,
+              ),
               child: SizedBox(
-                height: 80,
                 width: MediaQuery.of(context).size.width,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
+                    padding: EdgeInsets.symmetric(
+                      vertical: 10,
+                      horizontal: MediaQuery.of(context).size.width / 5.8,
+                    ),
                     backgroundColor: Colors.blue.shade300,
                   ),
                   onPressed: () {

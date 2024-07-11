@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
-class CurvedLoadingBar extends StatefulWidget {
+class CurvedLoadingBar extends StatelessWidget {
   final double value;
   final int size;
   final Color color;
@@ -15,18 +15,12 @@ class CurvedLoadingBar extends StatefulWidget {
   });
 
   @override
-  _CurvedLoadingBarState createState() => _CurvedLoadingBarState();
-}
-
-class _CurvedLoadingBarState extends State<CurvedLoadingBar>
-    with SingleTickerProviderStateMixin {
-  @override
   Widget build(BuildContext context) {
     return CustomPaint(
-      painter: CurvedLoadingBarPainter(widget.value, widget.size, widget.color),
+      painter: CurvedLoadingBarPainter(value, size, color),
       child: const SizedBox(
-        width: 200,
-        height: 100,
+        width: double.infinity,
+        height: double.infinity,
       ),
     );
   }
@@ -47,9 +41,8 @@ class CurvedLoadingBarPainter extends CustomPainter {
       ..strokeWidth = 13.0
       ..strokeCap = StrokeCap.round;
 
-    double radius = min(size.width / circleSize, size.height);
-    Offset center =
-        Offset(size.width / 2, size.height / 2); 
+    double radius = min(size.width / circleSize, size.height / 2);
+    Offset center = Offset(size.width / 2, size.height);
     double startAngle = pi;
     double sweepAngle = pi * progress;
 
@@ -64,6 +57,6 @@ class CurvedLoadingBarPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(CurvedLoadingBarPainter oldDelegate) {
-    return oldDelegate.progress != progress;
+    return oldDelegate.progress != progress || oldDelegate.color != color;
   }
 }

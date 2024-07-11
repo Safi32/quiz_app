@@ -57,8 +57,8 @@ class _BottomBarState extends State<BottomBar> {
         ],
         currentIndex: _selectedIndex,
         onTap: onBtnClick,
-        selectedItemColor: Colors.orange,
-        unselectedItemColor: const Color.fromARGB(110, 255, 153, 0),
+        selectedItemColor: Colors.deepOrange,
+        unselectedItemColor: Colors.grey,
       ),
     );
   }
