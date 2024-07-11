@@ -78,211 +78,202 @@ class SubscriptionScreen extends StatelessWidget {
                 Row(
                   children: [
                     Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                          right: 8.0,
-                          left: 20,
-                        ),
-                        child: Container(
-                          height: 180,
-                          width: MediaQuery.of(context).size.width,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: Colors.white,
-                            border: Border.all(
-                              width: 2.0,
-                              color: Colors.black,
-                            ),
-                          ),
-                          child: Column(
-                            children: [
-                              const Padding(
-                                padding: EdgeInsets.only(
-                                  top: 20,
-                                  left: 10,
-                                ),
-                                child: Column(
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Text(
-                                          "Lifetime",
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 20,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      children: [
-                                        Text(
-                                          "Rs 470/ week",
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 15,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              const Padding(
-                                padding: EdgeInsets.only(
-                                  left: 10,
-                                ),
-                                child: Row(
-                                  children: [
-                                    Text(
-                                      "in terms of 1 year",
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 13,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                  left: 10,
-                                  right: 20,
-                                ),
-                                child: Container(
-                                  height: 30,
-                                  width: MediaQuery.of(context).size.width,
-                                  decoration: BoxDecoration(
-                                    color: primaryColor,
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  child: const Center(
-                                    child: Text(
-                                      "save 75%",
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(
-                                height: 5,
-                              ),
-                              const Text(
-                                "Rs 24,900/once",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 15,
-                                ),
-                              ),
-                            ],
+                      child: Container(
+                        height: 180,
+                        width: MediaQuery.of(context).size.width,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: Colors.white,
+                          border: Border.all(
+                            width: 2.0,
+                            color: Colors.black,
                           ),
                         ),
-                      ),
-                    ),
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                          left: 8.0,
-                          right: 20,
-                        ),
-                        child: Container(
-                          height: 180,
-                          width: MediaQuery.of(context).size.width,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: Colors.white,
-                            border: Border.all(
-                              width: 2.0,
-                              color: primaryColor,
-                            ),
-                          ),
-                          child: Column(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                  right: 20,
-                                  top: 10,
-                                ),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    Container(
-                                      height: 30,
-                                      width: 30,
-                                      decoration: BoxDecoration(
-                                        color: primaryColor,
-                                        borderRadius: BorderRadius.circular(50),
-                                      ),
-                                      child: const Icon(
-                                        Icons.done,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                        child: Column(
+                          children: [
+                            const Padding(
+                              padding: EdgeInsets.only(
+                                top: 20,
+                                left: 10,
                               ),
-                              const Text(
-                                "7 days for free",
-                                style: TextStyle(
-                                  fontSize: 17,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              const Padding(
-                                padding: EdgeInsets.only(
-                                  left: 10,
-                                ),
-                                child: Flexible(
-                                  child: Row(
+                              child: Column(
+                                children: [
+                                  Row(
                                     children: [
                                       Text(
-                                        "Rs 3,950",
+                                        "Lifetime",
                                         style: TextStyle(
-                                          fontSize: 17,
                                           fontWeight: FontWeight.bold,
+                                          fontSize: 20,
                                         ),
                                       ),
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
                                       Text(
-                                        "/month",
+                                        "Rs 470/ week",
                                         style: TextStyle(
+                                          fontWeight: FontWeight.bold,
                                           fontSize: 15,
                                         ),
                                       ),
                                     ],
                                   ),
+                                ],
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            const Padding(
+                              padding: EdgeInsets.only(
+                                left: 10,
+                              ),
+                              child: Row(
+                                children: [
+                                  Text(
+                                    "in terms of 1 year",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 13,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                left: 10,
+                                right: 20,
+                              ),
+                              child: Container(
+                                height: 30,
+                                width: MediaQuery.of(context).size.width,
+                                decoration: BoxDecoration(
+                                  color: primaryColor,
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: const Center(
+                                  child: Text(
+                                    "save 75%",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
                                 ),
                               ),
-                              const SizedBox(
-                                height: 50,
+                            ),
+                            const SizedBox(
+                              height: 5,
+                            ),
+                            const Text(
+                              "Rs 24,900/once",
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 15,
                               ),
-                              const Padding(
-                                padding: EdgeInsets.symmetric(
-                                  horizontal: 10,
-                                ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    Expanded(
+                      child: Container(
+                        height: 180,
+                        width: MediaQuery.of(context).size.width,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: Colors.white,
+                          border: Border.all(
+                            width: 2.0,
+                            color: primaryColor,
+                          ),
+                        ),
+                        child: Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                right: 20,
+                                top: 10,
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Container(
+                                    height: 30,
+                                    width: 30,
+                                    decoration: BoxDecoration(
+                                      color: primaryColor,
+                                      borderRadius: BorderRadius.circular(50),
+                                    ),
+                                    child: const Icon(
+                                      Icons.done,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            const Text(
+                              "7 days for free",
+                              style: TextStyle(
+                                fontSize: 17,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const Padding(
+                              padding: EdgeInsets.only(
+                                left: 10,
+                              ),
+                              child: Flexible(
                                 child: Row(
                                   children: [
                                     Text(
-                                      "after 7-day trial",
+                                      "Rs 3,950",
                                       style: TextStyle(
+                                        fontSize: 17,
                                         fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    Text(
+                                      "/month",
+                                      style: TextStyle(
                                         fontSize: 15,
                                       ),
                                     ),
                                   ],
                                 ),
                               ),
-                            ],
-                          ),
+                            ),
+                            const SizedBox(
+                              height: 50,
+                            ),
+                            const Padding(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 10,
+                              ),
+                              child: Row(
+                                children: [
+                                  Text(
+                                    "after 7-day trial",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 15,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ),

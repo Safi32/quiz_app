@@ -116,7 +116,7 @@ class _SettingScreenState extends State<SettingScreen> {
                               DateFormat('MMMM d, y').format(_selectedDate),
                               style: const TextStyle(
                                 color: primaryColor,
-                                fontSize: 18,
+                                fontSize: 15,
                                 fontWeight: FontWeight.bold,
                               ),
                             )

@@ -76,7 +76,7 @@ class _CardWidgetState extends State<CardWidget> {
                 Text(
                   widget.title,
                   style: TextStyle(
-                    fontSize: 20,
+                    fontSize: 15,
                     fontWeight: FontWeight.bold,
                     color: widget.color,
                   ),
@@ -90,7 +90,7 @@ class _CardWidgetState extends State<CardWidget> {
                       const Text(
                         'Exam-style',
                         style: TextStyle(
-                          fontSize: 18,
+                          fontSize: 15,
                           color: primaryColor,
                           fontWeight: FontWeight.bold,
                         ),
