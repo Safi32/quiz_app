@@ -21,14 +21,14 @@ class HomePage extends StatelessWidget {
         body: Column(
           children: [
             Padding(
-              padding: EdgeInsets.symmetric(
+              padding: const EdgeInsets.symmetric(
                 vertical: 30,
                 horizontal: 20,
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Padding(
+                  const Padding(
                     padding: EdgeInsets.symmetric(
                       horizontal: 10,
                     ),
@@ -45,7 +45,7 @@ class HomePage extends StatelessWidget {
                     onTap: () {
                       Navigator.pushNamed(context, SettingScreen.routeName);
                     },
-                    child: Icon(
+                    child: const Icon(
                       Icons.settings,
                       color: primaryColor,
                       size: 30,
@@ -72,7 +72,7 @@ class HomePage extends StatelessWidget {
                     "Unlock all questions",
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: 25,
+                      fontSize: 20,
                     ),
                   ),
                 ),
@@ -99,7 +99,7 @@ class HomePage extends StatelessWidget {
                     "Take a free test",
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: 25,
+                      fontSize: 20,
                     ),
                   ),
                 ),

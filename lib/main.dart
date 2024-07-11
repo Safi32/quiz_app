@@ -51,7 +51,7 @@ class _MyAppState extends State<MyApp> {
         screens: screens,
         selectedIndex: _selectedIndex,
       ),
-      // initialRoute: LoginScreen.routeName,
+      initialRoute: LoginScreen.routeName,
       routes: {
         LoginScreen.routeName: (context) => const LoginScreen(),
         SignUpScreen.routeName: (context) => const SignUpScreen(),
