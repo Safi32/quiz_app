@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:quiz_app/utils/colors.dart';
 import 'package:quiz_app/view/screens/free_test/free_test.dart';
 import 'package:quiz_app/view/screens/setting_screen/setting_screen.dart';
 import 'package:quiz_app/view/screens/subscription_screen/subscription_screen.dart';
@@ -20,14 +21,14 @@ class HomePage extends StatelessWidget {
         body: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.symmetric(
+              padding: EdgeInsets.symmetric(
                 vertical: 30,
                 horizontal: 20,
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Padding(
+                  Padding(
                     padding: EdgeInsets.symmetric(
                       horizontal: 10,
                     ),
@@ -44,52 +45,25 @@ class HomePage extends StatelessWidget {
                     onTap: () {
                       Navigator.pushNamed(context, SettingScreen.routeName);
                     },
-                    child: const Icon(
+                    child: Icon(
                       Icons.settings,
-                      color: Colors.orange,
+                      color: primaryColor,
                       size: 30,
                     ),
                   ),
                 ],
               ),
             ),
-            // Padding(
-            //   padding: const EdgeInsets.symmetric(
-            //     horizontal: 20,
-            //   ),
-            //   child: ElevatedButton(
-            //     style: ElevatedButton.styleFrom(
-            //       padding: EdgeInsets.symmetric(
-            //         vertical: 10,
-            //         horizontal: MediaQuery.of(context).size.width / 5.8,
-            //       ),
-            //       backgroundColor: Colors.orange,
-            //     ),
-            //     onPressed: () {
-            //       Navigator.pushNamed(context, SubscriptionScreen.routeName);
-            //     },
-            //     child: const Text(
-            //       "Unlock all questions",
-            //       style: TextStyle(
-            //         color: Colors.white,
-            //         fontSize: 25,
-            //       ),
-            //     ),
-            //   ),
-            // ),
             Padding(
               padding: const EdgeInsets.symmetric(
                 horizontal: 20,
               ),
               child: SizedBox(
+                height: 50,
                 width: MediaQuery.of(context).size.width,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    padding: EdgeInsets.symmetric(
-                      vertical: 10,
-                      horizontal: MediaQuery.of(context).size.width / 5.8,
-                    ),
-                    backgroundColor: Colors.orange,
+                    backgroundColor: primaryColor,
                   ),
                   onPressed: () {
                     Navigator.pushNamed(context, SubscriptionScreen.routeName);
@@ -112,13 +86,10 @@ class HomePage extends StatelessWidget {
                 horizontal: 20,
               ),
               child: SizedBox(
+                height: 50,
                 width: MediaQuery.of(context).size.width,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    padding: EdgeInsets.symmetric(
-                      vertical: 10,
-                      horizontal: MediaQuery.of(context).size.width / 5.8,
-                    ),
                     backgroundColor: Colors.blue.shade300,
                   ),
                   onPressed: () {

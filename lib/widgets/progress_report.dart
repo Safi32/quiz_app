@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:quiz_app/utils/colors.dart';
 
 class ProgressReport extends StatelessWidget {
   final String title;
@@ -30,7 +31,7 @@ class ProgressReport extends StatelessWidget {
           Text(
             number,
             style: const TextStyle(
-              color: Colors.orange,
+              color: primaryColor,
               fontWeight: FontWeight.bold,
               fontSize: 20,
             ),

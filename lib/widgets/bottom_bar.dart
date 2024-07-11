@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:quiz_app/utils/colors.dart';
 
 class BottomBar extends StatefulWidget {
   final void Function(int)? onTap;
@@ -57,7 +58,7 @@ class _BottomBarState extends State<BottomBar> {
         ],
         currentIndex: _selectedIndex,
         onTap: onBtnClick,
-        selectedItemColor: Colors.deepOrange,
+        selectedItemColor: primaryColor,
         unselectedItemColor: Colors.grey,
       ),
     );

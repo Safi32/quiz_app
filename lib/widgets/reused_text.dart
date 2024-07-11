@@ -17,20 +17,21 @@ class ReusedText extends StatelessWidget {
           children: [
             const Flexible(
               flex: 2,
-              child: const Icon(
+              child: Icon(
                 Icons.done,
               ),
             ),
             const Flexible(
               flex: 1,
-              child: const SizedBox(
+              child: SizedBox(
                 width: 10,
               ),
             ),
             Flexible(
               flex: 20,
               child: Text(
-                title,                style: const TextStyle(
+                title,
+                style: const TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 18,
                 ),

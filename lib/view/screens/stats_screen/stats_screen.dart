@@ -1,74 +1,9 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
+import 'package:quiz_app/utils/colors.dart';
+import 'package:quiz_app/widgets/curved_loading_bar.dart';
 import 'package:quiz_app/widgets/progress.dart';
 import 'package:quiz_app/widgets/progress_line.dart';
 import 'package:quiz_app/widgets/progress_report.dart';
-
-class CurvedLoadingBar extends StatefulWidget {
-  final double value;
-  final int size;
-  final Color color;
-
-  const CurvedLoadingBar({
-    Key? key,
-    required this.value,
-    required this.size,
-    required this.color,
-  }) : super(key: key);
-
-  @override
-  _CurvedLoadingBarState createState() => _CurvedLoadingBarState();
-}
-
-class _CurvedLoadingBarState extends State<CurvedLoadingBar>
-    with SingleTickerProviderStateMixin {
-  @override
-  Widget build(BuildContext context) {
-    return CustomPaint(
-      painter: CurvedLoadingBarPainter(widget.value, widget.size, widget.color),
-      child: const SizedBox(
-        width: 200,
-        height: 100,
-      ),
-    );
-  }
-}
-
-class CurvedLoadingBarPainter extends CustomPainter {
-  final double progress;
-  final int circleSize;
-  final Color color;
-
-  CurvedLoadingBarPainter(this.progress, this.circleSize, this.color);
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    Paint paint = Paint()
-      ..color = color
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 13.0
-      ..strokeCap = StrokeCap.round;
-
-    double radius = min(size.width / circleSize, size.height);
-    Offset center = Offset(size.width / 2, size.height / 2);
-    double startAngle = pi;
-    double sweepAngle = pi * progress;
-
-    canvas.drawArc(
-      Rect.fromCircle(center: center, radius: radius),
-      startAngle,
-      sweepAngle,
-      false,
-      paint,
-    );
-  }
-
-  @override
-  bool shouldRepaint(CurvedLoadingBarPainter oldDelegate) {
-    return oldDelegate.progress != progress;
-  }
-}
 
 class StatsScreen extends StatefulWidget {
   const StatsScreen({Key? key}) : super(key: key);
@@ -120,7 +55,7 @@ class _StatsScreenState extends State<StatsScreen> {
               height: 100,
               width: MediaQuery.of(context).size.width,
               decoration: BoxDecoration(
-                color: Colors.orange,
+                color: primaryColor,
                 borderRadius: BorderRadius.circular(20),
               ),
               child: Column(
@@ -206,7 +141,7 @@ class _StatsScreenState extends State<StatsScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               Progress(
-                color: Colors.orange,
+                color: primaryColor,
                 percentage: "6%",
               ),
               Progress(
@@ -219,8 +154,12 @@ class _StatsScreenState extends State<StatsScreen> {
               ),
             ],
           ),
-          const Expanded(
-            child: Stack(
+          const SizedBox(
+            height: 50,
+          ),
+          SizedBox(
+            height: MediaQuery.of(context).size.height / 6,
+            child: const Stack(
               clipBehavior: Clip.none,
               children: [
                 Align(
@@ -233,9 +172,9 @@ class _StatsScreenState extends State<StatsScreen> {
                           width: 200,
                           height: 100,
                           child: CurvedLoadingBar(
-                            value: 0.1,
+                            value: 0.2,
                             size: 2,
-                            color: Colors.orange,
+                            color: primaryColor,
                           ),
                         ),
                       ),
@@ -247,7 +186,7 @@ class _StatsScreenState extends State<StatsScreen> {
                           child: CurvedLoadingBar(
                             value: 1,
                             size: 1,
-                            color: Color.fromARGB(120, 255, 153, 0),
+                            color: Color.fromARGB(120, 255, 0, 0),
                           ),
                         ),
                       ),
@@ -286,7 +225,7 @@ class _StatsScreenState extends State<StatsScreen> {
                 ),
                 Align(
                   alignment: Alignment.center,
-                  child: Stack(
+                  child: const Stack(
                     children: [
                       Align(
                         child: SizedBox(
@@ -305,7 +244,7 @@ class _StatsScreenState extends State<StatsScreen> {
                           width: 120,
                           height: 40,
                           child: CurvedLoadingBar(
-                            value: 2,
+                            value: 1,
                             size: 1,
                             color: Color.fromARGB(120, 47, 0, 255),
                           ),

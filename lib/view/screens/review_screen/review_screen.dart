@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:quiz_app/utils/colors.dart';
 import 'package:quiz_app/widgets/questions.dart';
 
 class ReviewScreen extends StatefulWidget {
@@ -11,7 +12,7 @@ class ReviewScreen extends StatefulWidget {
 
 class _ReviewScreenState extends State<ReviewScreen> {
   int _page = 0;
-  int _text = 0; // Tracks selected tab index
+  int _text = 0;
   DateTime now = DateTime.now();
   String formattedDate = DateFormat('MMMM d').format(DateTime.now());
 
@@ -48,7 +49,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
             height: 50,
             width: MediaQuery.of(context).size.width,
             decoration: BoxDecoration(
-              color: Colors.orange,
+              color: primaryColor,
               borderRadius: BorderRadius.circular(50),
             ),
             child: Row(
@@ -64,14 +65,14 @@ class _ReviewScreenState extends State<ReviewScreen> {
                     height: 40,
                     width: 140,
                     decoration: BoxDecoration(
-                      color: _page == 0 ? Colors.white : Colors.orange,
+                      color: _page == 0 ? Colors.white : primaryColor,
                       borderRadius: BorderRadius.circular(50),
                     ),
                     child: Center(
                       child: Text(
                         "Quizzes",
                         style: TextStyle(
-                          color: _page == 0 ? Colors.orange : Colors.white,
+                          color: _page == 0 ? primaryColor : Colors.white,
                           fontSize: 20,
                         ),
                       ),
@@ -90,14 +91,14 @@ class _ReviewScreenState extends State<ReviewScreen> {
                     width: 140,
                     height: 40,
                     decoration: BoxDecoration(
-                      color: _page == 1 ? Colors.white : Colors.orange,
+                      color: _page == 1 ? Colors.white : primaryColor,
                       borderRadius: BorderRadius.circular(50),
                     ),
                     child: Center(
                       child: Text(
                         "Questions",
                         style: TextStyle(
-                          color: _page == 1 ? Colors.orange : Colors.white,
+                          color: _page == 1 ? primaryColor : Colors.white,
                           fontSize: 20,
                         ),
                       ),
@@ -139,7 +140,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                       children: [
                         const Icon(
                           Icons.query_stats_outlined,
-                          color: Colors.black,
+                          color: primaryColor,
                           size: 30,
                         ),
                         const SizedBox(width: 20),
@@ -216,8 +217,8 @@ class _ReviewScreenState extends State<ReviewScreen> {
                             text: "All",
                             style: TextStyle(
                               color: _text == 0
-                                  ? Colors.orange
-                                  : Colors.orange.shade300,
+                                  ? primaryColor
+                                  : const Color.fromARGB(255, 255, 77, 77),
                               fontSize: 15,
                             ),
                           ),
@@ -228,7 +229,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                             child: Container(
                               height: 2.5,
                               width: 20,
-                              color: Colors.orange,
+                              color: primaryColor,
                             ),
                           ),
                       ],
@@ -249,8 +250,8 @@ class _ReviewScreenState extends State<ReviewScreen> {
                             text: "Correct",
                             style: TextStyle(
                               color: _text == 1
-                                  ? Colors.orange
-                                  : Colors.orange.shade300,
+                                  ? primaryColor
+                                  : const Color.fromARGB(255, 255, 77, 77),
                               fontSize: 15,
                             ),
                           ),
@@ -261,7 +262,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                             child: Container(
                               height: 2.5,
                               width: 50,
-                              color: Colors.orange,
+                              color: primaryColor,
                             ),
                           ),
                       ],
@@ -282,8 +283,8 @@ class _ReviewScreenState extends State<ReviewScreen> {
                             text: "Incorrect",
                             style: TextStyle(
                               color: _text == 2
-                                  ? Colors.orange
-                                  : Colors.orange.shade300,
+                                  ? primaryColor
+                                  : const Color.fromARGB(255, 255, 77, 77),
                               fontSize: 15,
                             ),
                           ),
@@ -294,7 +295,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                             child: Container(
                               height: 2.5,
                               width: 60,
-                              color: Colors.orange,
+                              color: primaryColor,
                             ),
                           ),
                       ],
