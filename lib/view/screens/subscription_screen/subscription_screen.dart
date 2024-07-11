@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:quiz_app/utils/colors.dart';
 import 'package:quiz_app/widgets/reused_text.dart';
 
 class SubscriptionScreen extends StatelessWidget {
@@ -158,7 +159,7 @@ class SubscriptionScreen extends StatelessWidget {
                                   height: 30,
                                   width: MediaQuery.of(context).size.width,
                                   decoration: BoxDecoration(
-                                    color: Colors.orange,
+                                    color: primaryColor,
                                     borderRadius: BorderRadius.circular(10),
                                   ),
                                   child: const Center(
@@ -174,13 +175,13 @@ class SubscriptionScreen extends StatelessWidget {
                                 ),
                               ),
                               const SizedBox(
-                                height: 10,
+                                height: 5,
                               ),
                               const Text(
                                 "Rs 24,900/once",
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
-                                  fontSize: 16,
+                                  fontSize: 15,
                                 ),
                               ),
                             ],
@@ -202,7 +203,7 @@ class SubscriptionScreen extends StatelessWidget {
                             color: Colors.white,
                             border: Border.all(
                               width: 2.0,
-                              color: Colors.orange,
+                              color: primaryColor,
                             ),
                           ),
                           child: Column(
@@ -219,7 +220,7 @@ class SubscriptionScreen extends StatelessWidget {
                                       height: 30,
                                       width: 30,
                                       decoration: BoxDecoration(
-                                        color: Colors.orange,
+                                        color: primaryColor,
                                         borderRadius: BorderRadius.circular(50),
                                       ),
                                       child: const Icon(
@@ -230,15 +231,15 @@ class SubscriptionScreen extends StatelessWidget {
                                   ],
                                 ),
                               ),
-                              Text(
+                              const Text(
                                 "7 days for free",
                                 style: TextStyle(
                                   fontSize: 17,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              Padding(
-                                padding: const EdgeInsets.only(
+                              const Padding(
+                                padding: EdgeInsets.only(
                                   left: 10,
                                 ),
                                 child: Flexible(
@@ -316,7 +317,7 @@ class SubscriptionScreen extends StatelessWidget {
                     height: 50,
                     width: MediaQuery.of(context).size.width,
                     decoration: BoxDecoration(
-                      color: Colors.orange,
+                      color: primaryColor,
                       borderRadius: BorderRadius.circular(50),
                     ),
                     child: const Row(

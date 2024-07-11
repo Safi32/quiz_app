@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:quiz_app/utils/colors.dart';
-import 'package:quiz_app/view/screens/auth_screen/signup.dart';
+import 'package:quiz_app/view/screens/auth_screen/login.dart';
 import 'package:quiz_app/widgets/textformfield.dart';
 
-class LoginScreen extends StatelessWidget {
-  static const routeName = "login";
-  const LoginScreen({super.key});
+class SignUpScreen extends StatelessWidget {
+  static const routeName = "Signup";
+
+  const SignUpScreen({Key? key});
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +39,7 @@ class LoginScreen extends StatelessWidget {
                   height: 10,
                 ),
                 const Text(
-                  "Sign in to continue",
+                  "Sign up to continue",
                   style: TextStyle(
                     fontSize: 15,
                   ),
@@ -53,7 +54,19 @@ class LoginScreen extends StatelessWidget {
                   child: Column(
                     children: [
                       TextformfieldWidget(
-                        hintText: "Emaill address",
+                        hintText: "Username",
+                        onPress: (value) {
+                          if (value == null || value.isEmpty) {
+                            return "Please enter valid username";
+                          }
+                          return null;
+                        },
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      TextformfieldWidget(
+                        hintText: "Email address",
                         onPress: (value) {
                           if (value == null ||
                               value.isEmpty ||
@@ -70,33 +83,14 @@ class LoginScreen extends StatelessWidget {
                       TextformfieldWidget(
                         hintText: "Password",
                         onPress: (value) {
-                          if (value == null ||
-                              value.isEmpty ||
-                              !value.contains("@") ||
-                              !value.contains(".com")) {
-                            return "Please enter a valid email address";
+                          if (value == null || value.isEmpty) {
+                            return "Please enter a password";
                           }
                           return null;
                         },
                       ),
                       const SizedBox(
-                        height: 10,
-                      ),
-                      const Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Text(
-                            "Forgot password?",
-                            style: TextStyle(
-                              color: primaryColor,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 17,
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 15,
+                        height: 20,
                       ),
                       SizedBox(
                         height: 55,
@@ -107,7 +101,7 @@ class LoginScreen extends StatelessWidget {
                           ),
                           onPressed: () {},
                           child: const Text(
-                            "LOGIN",
+                            "SIGN UP",
                             style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.bold,
@@ -120,16 +114,16 @@ class LoginScreen extends StatelessWidget {
                       ),
                       GestureDetector(
                         onTap: () {
-                          Navigator.pushNamed(context, SignUpScreen.routeName);
+                          Navigator.pushNamed(context, LoginScreen.routeName);
                         },
                         child: const Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              "Don't have account?",
+                              "Already have account?",
                             ),
                             Text(
-                              "create a new account",
+                              "login",
                               style: TextStyle(
                                 color: primaryColor,
                                 fontWeight: FontWeight.bold,
@@ -137,7 +131,7 @@ class LoginScreen extends StatelessWidget {
                             ),
                           ],
                         ),
-                      )
+                      ),
                     ],
                   ),
                 ),

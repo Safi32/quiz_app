@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:quiz_app/utils/colors.dart';
 import 'package:quiz_app/widgets/free_test_answers.dart';
 import 'package:quiz_app/widgets/progress_line.dart';
 
@@ -80,8 +81,8 @@ class FreeTest extends StatelessWidget {
             ProgressLine(
               width: MediaQuery.of(context).size.width,
               progress: _progress,
-              innerColor: const Color.fromARGB(125, 255, 153, 0),
-              outerColor: Colors.orange,
+              innerColor: Color.fromARGB(124, 255, 0, 0),
+              outerColor: primaryColor,
             ),
             Container(
               height: 80,
