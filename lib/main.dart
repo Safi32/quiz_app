@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:quiz_app/view/screens/auth_screen/login.dart';
 import 'package:quiz_app/view/screens/free_test/free_test.dart';
 import 'package:quiz_app/view/screens/home_screen/home_screen.dart';
 import 'package:quiz_app/view/screens/review_screen/review_screen.dart';
@@ -49,7 +50,9 @@ class _MyAppState extends State<MyApp> {
         screens: screens,
         selectedIndex: _selectedIndex,
       ),
+      initialRoute: LoginScreen.routeName,
       routes: {
+        LoginScreen.routeName: (context) => const LoginScreen(),
         SettingScreen.routeName: (context) => const SettingScreen(),
         SubscriptionScreen.routeName: (context) => const SubscriptionScreen(),
         FreeTest.routeName: (context) => const FreeTest(),

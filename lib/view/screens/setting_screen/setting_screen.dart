@@ -110,6 +110,7 @@ class _SettingScreenState extends State<SettingScreen> {
                       color: Colors.black,
                       showIcon: true,
                       onTap: _pickDate,
+                      // ignore: unnecessary_null_comparison
                       subtitle: _selectedDate != null
                           ? Text(
                               DateFormat('MMMM d, y').format(_selectedDate),
