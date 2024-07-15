@@ -3,9 +3,9 @@ import 'package:quiz_app/utils/colors.dart';
 import 'package:quiz_app/widgets/free_test_answers.dart';
 import 'package:quiz_app/widgets/progress_line.dart';
 
-class FreeTest extends StatelessWidget {
-  static const routeName = "FreeTest";
-  const FreeTest({super.key});
+class RandomQuestions extends StatelessWidget {
+  static const routeName = "randomQuestion";
+  const RandomQuestions({super.key});
 
   final double _progress = 0.1;
 
@@ -13,32 +13,22 @@ class FreeTest extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        backgroundColor: Colors.white,
         appBar: AppBar(
           title: const Text(
-            "Question 1/30",
-            style: TextStyle(
-              color: Colors.grey,
-              fontWeight: FontWeight.bold,
-              fontSize: 18,
-            ),
+            "Random Questions",
           ),
           centerTitle: true,
-          leading: GestureDetector(
+          elevation: 0,
+          leading: InkWell(
             onTap: () {
               Navigator.pop(context);
             },
             child: const Icon(
               Icons.close,
+              color: Colors.grey,
             ),
           ),
-          actions: const [
-            Padding(
-              padding: EdgeInsets.all(12.0),
-              child: Icon(
-                Icons.more_vert_outlined,
-              ),
-            ),
-          ],
         ),
         body: Column(
           children: [

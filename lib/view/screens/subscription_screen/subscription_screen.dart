@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:quiz_app/utils/colors.dart';
+import 'package:quiz_app/view/screens/choose_your_plan/choose_your_plan.dart';
 import 'package:quiz_app/widgets/reused_text.dart';
 
 class SubscriptionScreen extends StatelessWidget {
@@ -223,11 +224,20 @@ class SubscriptionScreen extends StatelessWidget {
                                 ],
                               ),
                             ),
-                            const Text(
-                              "7 days for free",
-                              style: TextStyle(
-                                fontSize: 17,
-                                fontWeight: FontWeight.bold,
+                            const Padding(
+                              padding: EdgeInsets.only(
+                                left: 10,
+                              ),
+                              child: Row(
+                                children: [
+                                  Text(
+                                    "7 days for free",
+                                    style: TextStyle(
+                                      fontSize: 17,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                             const Padding(
@@ -311,17 +321,23 @@ class SubscriptionScreen extends StatelessWidget {
                       color: primaryColor,
                       borderRadius: BorderRadius.circular(50),
                     ),
-                    child: const Row(
+                    child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(
-                          "Continue ",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20,
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.pushNamed(
+                                context, ChooseYourPlan.routeName);
+                          },
+                          child: const Text(
+                            "Continue ",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                            ),
                           ),
                         ),
-                        Icon(
+                        const Icon(
                           Icons.arrow_forward,
                           color: Colors.white,
                         ),

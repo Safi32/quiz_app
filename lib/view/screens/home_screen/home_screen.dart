@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:quiz_app/utils/colors.dart';
 import 'package:quiz_app/view/screens/free_test/free_test.dart';
+import 'package:quiz_app/view/screens/missed_questions/missed_questions.dart';
+import 'package:quiz_app/view/screens/random_questions/random_questions.dart';
+import 'package:quiz_app/view/screens/saved_questions/save_question.dart';
 import 'package:quiz_app/view/screens/setting_screen/setting_screen.dart';
 import 'package:quiz_app/view/screens/subscription_screen/subscription_screen.dart';
+import 'package:quiz_app/view/screens/ten_questions/ten_questions.dart';
+import 'package:quiz_app/view/screens/timed_quiz/timed_quiz.dart';
 import 'package:quiz_app/widgets/quiz_modes.dart';
 
 void main() {
@@ -140,7 +145,10 @@ class HomePage extends StatelessWidget {
                           color: Colors.green,
                         ),
                         QuizModes(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.pushNamed(
+                                context, TenQuestions.routeName);
+                          },
                           icon: Icons.web_stories_outlined,
                           title: "10 Questions \n Quick Quiz",
                           color: Colors.blue,
@@ -154,13 +162,19 @@ class HomePage extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         QuizModes(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.pushNamed(
+                                context, MissedQuestions.routeName);
+                          },
                           icon: Icons.add_to_photos_outlined,
                           title: "Missed \n Questions \n Quiz",
                           color: Colors.red,
                         ),
                         QuizModes(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.pushNamed(
+                                context, SaveQuestion.routeName);
+                          },
                           icon: Icons.bookmark_add_outlined,
                           title: "Saved \n Question \n Quiz",
                           color: Colors.blue,
@@ -174,13 +188,18 @@ class HomePage extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         QuizModes(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.pushNamed(context, TimedQuiz.routeName);
+                          },
                           icon: Icons.access_time_sharp,
                           title: "Timed Quiz",
                           color: Colors.purple,
                         ),
                         QuizModes(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.pushNamed(
+                                context, RandomQuestions.routeName);
+                          },
                           icon: Icons.autorenew_sharp,
                           title: "Random \n Set Quiz",
                           color: Colors.green,
