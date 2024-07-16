@@ -8,6 +8,7 @@ import 'package:quiz_app/view/screens/setting_screen/setting_screen.dart';
 import 'package:quiz_app/view/screens/subscription_screen/subscription_screen.dart';
 import 'package:quiz_app/view/screens/ten_questions/ten_questions.dart';
 import 'package:quiz_app/view/screens/timed_quiz/timed_quiz.dart';
+import 'package:quiz_app/view/screens/todays_question/todays_questions.dart';
 import 'package:quiz_app/widgets/quiz_modes.dart';
 
 void main() {
@@ -139,7 +140,10 @@ class HomePage extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         QuizModes(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.pushNamed(
+                                context, TodaysQuestions.routeName);
+                          },
                           icon: Icons.add_to_photos_outlined,
                           title: "Today's \n Question",
                           color: Colors.green,

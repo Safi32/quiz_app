@@ -18,7 +18,7 @@ class ChooseYourPlan extends StatelessWidget {
               Navigator.pop(context);
             },
             child: const Icon(
-              Icons.arrow_back_ios_new,
+              Icons.close,
               color: Colors.grey,
             ),
           ),

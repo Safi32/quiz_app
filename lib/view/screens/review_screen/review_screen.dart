@@ -83,8 +83,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                   onTap: () {
                     setState(() {
                       _page = 1;
-                      _text =
-                          0; // Reset to default tab "All" when switching to Questions
+                      _text = 0;
                     });
                   },
                   child: Container(
@@ -321,17 +320,14 @@ class _ReviewScreenState extends State<ReviewScreen> {
                         : const SizedBox.shrink();
                   } else if (_text == 2) {
                     return questions[index].contains("conduct fault testing")
-                        ? const SizedBox.shrink()
-                        : Column(
+                        ? const Column(
                             children: [
-                              QuestionsScreen(
-                                questions: questions[index],
-                              ),
-                              const SizedBox(
+                              SizedBox(
                                 height: 20,
                               ),
                             ],
-                          );
+                          )
+                        : const SizedBox.shrink();
                   } else {
                     return Column(
                       children: [

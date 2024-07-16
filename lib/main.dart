@@ -14,6 +14,7 @@ import 'package:quiz_app/view/screens/stats_screen/stats_screen.dart';
 import 'package:quiz_app/view/screens/subscription_screen/subscription_screen.dart';
 import 'package:quiz_app/view/screens/ten_questions/ten_questions.dart';
 import 'package:quiz_app/view/screens/timed_quiz/timed_quiz.dart';
+import 'package:quiz_app/view/screens/todays_question/todays_questions.dart';
 import 'package:quiz_app/widgets/bottom_bar.dart';
 
 void main() {
@@ -73,6 +74,7 @@ class _MyAppState extends State<MyApp> {
         SaveQuestion.routeName: (context) => const SaveQuestion(),
         TimedQuiz.routeName: (context) => const TimedQuiz(),
         MissedQuestions.routeName: (context) => const MissedQuestions(),
+        TodaysQuestions.routeName: (context) => const TodaysQuestions(),
       },
     );
   }
