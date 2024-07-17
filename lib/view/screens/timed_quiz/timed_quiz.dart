@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:quiz_app/utils/colors.dart';
 
 class TimedQuiz extends StatefulWidget {
   static const routeName = "timedQuiz";
@@ -29,7 +30,7 @@ class _TimedQuizState extends State<TimedQuiz> {
   }
 
   void _startClock() {
-    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       final now = DateTime.now();
       setState(() {
         _formattedTime = '${now.hour}:${now.minute}:${now.second}';
@@ -60,24 +61,57 @@ class _TimedQuizState extends State<TimedQuiz> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Select Time and Question'),
+          contentPadding: EdgeInsets.zero,
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
+              Container(
+                height: 60,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: primaryColor,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: const Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 15,
+                    vertical: 15,
+                  ),
+                  child: Text(
+                    'Select Time and Question',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w400,
+                      fontSize: 20,
+                    ),
+                  ),
+                ),
+              ),
               const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () {
                   _selectTime(context);
                 },
-                child: Text(selectedTime == null
-                    ? 'Select Time'
-                    : 'Time: ${selectedTime!.format(context)}'),
+                child: Text(
+                  selectedTime == null
+                      ? 'Select Time'
+                      : 'Time: ${selectedTime!.format(context)}',
+                  style: const TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ),
               const SizedBox(
                 height: 20,
               ),
               DropdownButton<String>(
-                hint: const Text('Select Question'),
+                hint: const Text(
+                  'Select Question',
+                  style: TextStyle(
+                    color: Colors.black,
+                  ),
+                ),
                 value: selectedQuestion,
                 onChanged: (String? newValue) {
                   setState(() {
@@ -91,17 +125,28 @@ class _TimedQuizState extends State<TimedQuiz> {
                   );
                 }).toList(),
               ),
+              const SizedBox(height: 20),
             ],
           ),
           actions: [
             TextButton(
-              child: const Text('Cancel'),
+              child: const Text(
+                'Cancel',
+                style: TextStyle(
+                  color: Colors.black,
+                ),
+              ),
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
             TextButton(
-              child: const Text('OK'),
+              child: const Text(
+                'OK',
+                style: TextStyle(
+                  color: Colors.black,
+                ),
+              ),
               onPressed: () {
                 if (selectedTime != null && selectedQuestion != null) {
                   print('Selected Time: ${selectedTime!.format(context)}');
@@ -126,7 +171,7 @@ class _TimedQuizState extends State<TimedQuiz> {
           onTap: () {
             Navigator.pop(context);
           },
-          child: Icon(
+          child: const Icon(
             Icons.close,
           ),
         ),

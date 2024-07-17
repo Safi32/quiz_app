@@ -74,7 +74,7 @@ class _MyAppState extends State<MyApp> {
         SaveQuestion.routeName: (context) => const SaveQuestion(),
         TimedQuiz.routeName: (context) => const TimedQuiz(),
         MissedQuestions.routeName: (context) => const MissedQuestions(),
-        TodaysQuestions.routeName: (context) => const TodaysQuestions(),
+        TodaysQuestions.routeName: (context) => TodaysQuestions(),
       },
     );
   }
