@@ -17,7 +17,7 @@ class QuestionCard extends StatelessWidget {
       ),
       child: SizedBox(
         // height: 200,
-        height: MediaQuery.of(context).size.height * 0.33,
+        height: MediaQuery.of(context).size.height / 4,
         width: MediaQuery.of(context).size.width,
         child: Card(
           child: Padding(

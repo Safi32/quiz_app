@@ -36,6 +36,7 @@ dependencies:
   cupertino_icons: ^1.0.6
   intl:
   calendar_date_picker2: ^1.1.5
+  multi_select_flutter: ^4.1.3
 
 dev_dependencies:
   flutter_test:

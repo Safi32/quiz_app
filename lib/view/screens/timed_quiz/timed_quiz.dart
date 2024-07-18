@@ -165,8 +165,6 @@ class _TimedQuizState extends State<TimedQuiz> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Quiz App'),
-        centerTitle: true,
         leading: InkWell(
           onTap: () {
             Navigator.pop(context);
