@@ -1,66 +1,55 @@
 import 'package:flutter/material.dart';
 import 'package:quiz_app/utils/colors.dart';
+import 'package:quiz_app/view/screens/home_screen/home_screen.dart';
+import 'package:quiz_app/view/screens/review_screen/review_screen.dart';
+import 'package:quiz_app/view/screens/stats_screen/stats_screen.dart';
 
 class BottomBar extends StatefulWidget {
-  final void Function(int)? onTap;
-  final List<Widget>? screens;
-  final int? selectedIndex;
-
-  const BottomBar({Key? key, this.onTap, this.screens, this.selectedIndex})
-      : super(key: key);
+  const BottomBar({Key? key}) : super(key: key);
 
   @override
-  State<BottomBar> createState() => _BottomBarState();
+  _BottomBarState createState() => _BottomBarState();
 }
 
 class _BottomBarState extends State<BottomBar> {
-  late int _selectedIndex;
+  int _selectedIndex = 0;
 
-  @override
-  void initState() {
-    super.initState();
-    _selectedIndex = widget.selectedIndex ?? 0;
-  }
-
-  void onBtnClick(int index) {
+  void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
     });
-    if (widget.onTap != null) {
-      widget.onTap!(index);
-    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(child: widget.screens![_selectedIndex]),
       bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(
-              Icons.notes,
-            ),
+            icon: Icon(Icons.notes),
             label: "Study",
           ),
           BottomNavigationBarItem(
-            icon: Icon(
-              Icons.stacked_line_chart_sharp,
-            ),
+            icon: Icon(Icons.stacked_line_chart_sharp),
             label: "Stats",
           ),
           BottomNavigationBarItem(
-            icon: Icon(
-              Icons.reviews,
-            ),
-            label: "Review",
+            icon: Icon(Icons.stacked_line_chart_sharp),
+            label: "Stats",
           ),
         ],
         currentIndex: _selectedIndex,
-        onTap: onBtnClick,
         selectedItemColor: primaryColor,
-        unselectedItemColor: Colors.grey,
+        onTap: _onItemTapped,
       ),
+      body: _selectedIndex == 0
+          ? const HomePage()
+          : _selectedIndex == 1
+              ? const StatsScreen()
+              : _selectedIndex == 2
+                  ? const ReviewScreen()
+                  : const SizedBox(),
     );
   }
 }

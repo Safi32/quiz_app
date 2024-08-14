@@ -12,7 +12,7 @@ class TimedQuiz extends StatefulWidget {
 }
 
 class _TimedQuizState extends State<TimedQuiz> {
-  TimeOfDay? selectedTime;
+  int? selectedDuration;
   String? selectedQuestion;
   List<String> questions = [
     'Question 1',
@@ -44,18 +44,6 @@ class _TimedQuizState extends State<TimedQuiz> {
     super.dispose();
   }
 
-  Future<void> _selectTime(BuildContext context) async {
-    final TimeOfDay? picked = await showTimePicker(
-      context: context,
-      initialTime: TimeOfDay.now(),
-    );
-    if (picked != null && picked != selectedTime) {
-      setState(() {
-        selectedTime = picked;
-      });
-    }
-  }
-
   void _showQuizDialog() {
     showDialog(
       context: context,
@@ -78,7 +66,7 @@ class _TimedQuizState extends State<TimedQuiz> {
                     vertical: 15,
                   ),
                   child: Text(
-                    'Select Time and Question',
+                    'Select Duration and Question',
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.w400,
@@ -88,19 +76,25 @@ class _TimedQuizState extends State<TimedQuiz> {
                 ),
               ),
               const SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: () {
-                  _selectTime(context);
-                },
-                child: Text(
-                  selectedTime == null
-                      ? 'Select Time'
-                      : 'Time: ${selectedTime!.format(context)}',
-                  style: const TextStyle(
+              DropdownButton<int>(
+                hint: const Text(
+                  'Select Duration (seconds)',
+                  style: TextStyle(
                     color: Colors.black,
-                    fontWeight: FontWeight.bold,
                   ),
                 ),
+                value: selectedDuration,
+                onChanged: (int? newValue) {
+                  setState(() {
+                    selectedDuration = newValue;
+                  });
+                },
+                items: List.generate(61, (index) {
+                  return DropdownMenuItem<int>(
+                    value: index,
+                    child: Text(index.toString()),
+                  );
+                }),
               ),
               const SizedBox(
                 height: 20,
@@ -148,8 +142,8 @@ class _TimedQuizState extends State<TimedQuiz> {
                 ),
               ),
               onPressed: () {
-                if (selectedTime != null && selectedQuestion != null) {
-                  print('Selected Time: ${selectedTime!.format(context)}');
+                if (selectedDuration != null && selectedQuestion != null) {
+                  print('Selected Duration: $selectedDuration seconds');
                   print('Selected Question: $selectedQuestion');
                 }
                 Navigator.of(context).pop();

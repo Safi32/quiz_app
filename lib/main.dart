@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:quiz_app/view/screens/auth_screen/login.dart';
 import 'package:quiz_app/view/screens/auth_screen/signup.dart';
@@ -7,44 +8,23 @@ import 'package:quiz_app/view/screens/home_screen/home_screen.dart';
 import 'package:quiz_app/view/screens/missed_questions/missed_questions.dart';
 import 'package:quiz_app/view/screens/payment_screen/payment_screen.dart';
 import 'package:quiz_app/view/screens/random_questions/random_questions.dart';
-import 'package:quiz_app/view/screens/review_screen/review_screen.dart';
 import 'package:quiz_app/view/screens/saved_questions/save_question.dart';
 import 'package:quiz_app/view/screens/setting_screen/setting_screen.dart';
-import 'package:quiz_app/view/screens/stats_screen/stats_screen.dart';
 import 'package:quiz_app/view/screens/subscription_screen/subscription_screen.dart';
 import 'package:quiz_app/view/screens/ten_questions/ten_questions.dart';
 import 'package:quiz_app/view/screens/timed_quiz/timed_quiz.dart';
 import 'package:quiz_app/view/screens/todays_question/todays_questions.dart';
-import 'package:quiz_app/widgets/bottom_bar.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(
     const MyApp(),
   );
 }
 
-class MyApp extends StatefulWidget {
+class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
-  @override
-  State<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  int _selectedIndex = 0;
-
-  List<Widget> screens = [
-    const HomePage(),
-    const StatsScreen(),
-    const ReviewScreen(),
-  ];
-
-  void onBtnClick(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -55,15 +35,11 @@ class _MyAppState extends State<MyApp> {
         ),
       ),
       debugShowCheckedModeBanner: false,
-      home: BottomBar(
-        onTap: onBtnClick,
-        screens: screens,
-        selectedIndex: _selectedIndex,
-      ),
-      // initialRoute: LoginScreen.routeName,
+      home: LoginScreen(),
       routes: {
-        LoginScreen.routeName: (context) => const LoginScreen(),
-        SignUpScreen.routeName: (context) => const SignUpScreen(),
+        HomePage.routeName: (context) => const HomePage(),
+        LoginScreen.routeName: (context) => LoginScreen(),
+        SignUpScreen.routeName: (context) => SignUpScreen(),
         SettingScreen.routeName: (context) => const SettingScreen(),
         SubscriptionScreen.routeName: (context) => const SubscriptionScreen(),
         FreeTest.routeName: (context) => const FreeTest(),

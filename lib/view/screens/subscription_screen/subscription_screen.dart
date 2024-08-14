@@ -39,9 +39,6 @@ class SubscriptionScreen extends StatelessWidget {
                     ),
                   ],
                 ),
-                const SizedBox(
-                  height: 20,
-                ),
                 const Image(
                   image: AssetImage(
                     "assets/subscription_image.jpg",
@@ -55,20 +52,11 @@ class SubscriptionScreen extends StatelessWidget {
                   ),
                   textAlign: TextAlign.center,
                 ),
-                const SizedBox(
-                  height: 10,
-                ),
                 const ReusedText(
                   title: "Don't spend hours learning",
                 ),
-                const SizedBox(
-                  height: 10,
-                ),
                 const ReusedText(
                   title: "Train yourself with 6000 + questions",
-                ),
-                const SizedBox(
-                  height: 10,
                 ),
                 const ReusedText(
                   title: "Track your stats to motivate yourself",

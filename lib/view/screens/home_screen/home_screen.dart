@@ -11,13 +11,8 @@ import 'package:quiz_app/view/screens/timed_quiz/timed_quiz.dart';
 import 'package:quiz_app/view/screens/todays_question/todays_questions.dart';
 import 'package:quiz_app/widgets/quiz_modes.dart';
 
-void main() {
-  runApp(
-    const HomePage(),
-  );
-}
-
 class HomePage extends StatelessWidget {
+  static const routeName = "HomeScreen";
   const HomePage({super.key});
 
   @override
