@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:quiz_app/utils/colors.dart';
+import 'package:quiz_app/view/screens/fetch_topics/fetch_topics.dart';
 import 'package:quiz_app/widgets/card.dart';
 
 class SettingScreen extends StatefulWidget {
@@ -146,7 +147,7 @@ class _SettingScreenState extends State<SettingScreen> {
                   children: [
                     CardWidget(
                       onPressed: () {
-                        // Navigator.pushNamed(context, SelectTopic.routeName);
+                        Navigator.pushNamed(context, FetchTopics.routeName);
                       },
                       title: "Exam mode",
                       color: Colors.black,
