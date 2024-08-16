@@ -140,22 +140,25 @@ class _SettingScreenState extends State<SettingScreen> {
                   ),
                 ),
               ),
-              const Padding(
-                padding: EdgeInsets.only(left: 20, right: 20, top: 20),
+              Padding(
+                padding: const EdgeInsets.only(left: 20, right: 20, top: 20),
                 child: Column(
                   children: [
                     CardWidget(
+                      onPressed: () {
+                        // Navigator.pushNamed(context, SelectTopic.routeName);
+                      },
                       title: "Exam mode",
                       color: Colors.black,
                       showText: true,
                     ),
-                    CardWidget(
+                    const CardWidget(
                       title: "Vibration",
                       color: Colors.black,
                       showIcon: false,
                       showToggle: true,
                     ),
-                    CardWidget(
+                    const CardWidget(
                       title: "Text size",
                       color: Colors.black,
                     ),

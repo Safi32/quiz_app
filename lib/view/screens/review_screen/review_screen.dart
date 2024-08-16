@@ -154,7 +154,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                         const Spacer(),
                         GestureDetector(
                           onTap: () {
-                            // Add navigation or action
+                            // Add your logic here
                           },
                           child: const Icon(Icons.arrow_forward_ios_outlined),
                         ),
@@ -303,31 +303,46 @@ class _ReviewScreenState extends State<ReviewScreen> {
                 ],
               ),
             ),
-            const SizedBox(height: 20),
             Expanded(
               child: ListView.builder(
                 itemCount: questions.length,
                 itemBuilder: (BuildContext context, int index) {
                   if (_text == 1) {
                     return questions[index].contains("conduct fault testing")
-                        ? const Column(
-                            children: [
-                              SizedBox(
-                                height: 20,
-                              ),
-                            ],
-                          )
+                        ? const SizedBox.shrink()
                         : const SizedBox.shrink();
-                  } else if (_text == 2) {
-                    return questions[index].contains("conduct fault testing")
-                        ? const Column(
-                            children: [
-                              SizedBox(
-                                height: 20,
+                  }
+                  if (_text == 2) {
+                    return Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 30),
+                          child: Container(
+                            height: 150,
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Colors.green.shade800),
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            child: ListTile(
+                              title: Text(
+                                questions[index],
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 17,
+                                ),
                               ),
-                            ],
-                          )
-                        : const SizedBox.shrink();
+                              trailing: Icon(
+                                Icons.check,
+                                color: Colors.green.shade800,
+                              ),
+                              contentPadding:
+                                  const EdgeInsets.symmetric(horizontal: 20.0),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 20),
+                      ],
+                    );
                   } else {
                     return Column(
                       children: [

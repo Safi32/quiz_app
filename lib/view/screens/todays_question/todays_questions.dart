@@ -81,7 +81,6 @@ class TodaysQuestions extends StatelessWidget {
                 vertical: 20,
               ),
               child: Container(
-                height: 120,
                 width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
                   color: primaryColor,

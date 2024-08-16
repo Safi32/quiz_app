@@ -1,26 +1,39 @@
 import 'package:flutter/material.dart';
-import 'package:quiz_app/utils/colors.dart';
-import 'package:quiz_app/widgets/free_test_answers.dart';
-import 'package:quiz_app/widgets/progress_line.dart';
+import 'package:provider/provider.dart';
+import 'package:quiz_app/provider/free_test_provider.dart';
 
 class FreeTest extends StatelessWidget {
   static const routeName = "FreeTest";
-  const FreeTest({super.key});
 
-  final double _progress = 0.1;
+  final List<String> questions =
+      List.generate(30, (index) => "Question ${index + 1}");
+  final List<List<String>> answers = List.generate(
+    30,
+    (index) => [
+      "Answer 1 for Question ${index + 1}",
+      "Answer 2 for Question ${index + 1}",
+      "Answer 3 for Question ${index + 1}",
+      "Answer 4 for Question ${index + 1}",
+    ],
+  );
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
+    return ChangeNotifierProvider(
+      create: (_) => FreeTestProvider(),
       child: Scaffold(
         appBar: AppBar(
-          title: const Text(
-            "Question 1/30",
-            style: TextStyle(
-              color: Colors.grey,
-              fontWeight: FontWeight.bold,
-              fontSize: 18,
-            ),
+          title: Consumer<FreeTestProvider>(
+            builder: (context, provider, child) {
+              return Text(
+                "Question ${provider.currentQuestionIndex + 1}/30",
+                style: const TextStyle(
+                  color: Colors.grey,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                ),
+              );
+            },
           ),
           centerTitle: true,
           leading: GestureDetector(
@@ -40,85 +53,82 @@ class FreeTest extends StatelessWidget {
             ),
           ],
         ),
-        body: Column(
-          children: [
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20),
-              child: Text(
-                "While performing the compliance procedure, a Database Specialist requires to conduct fault testing on an Amazon RDS for MySQL running in the Multi-AZ deployments configuration.The test will assess the resiliency of the database in the event of DB instance failure and availability zone disruption.What action is to be taken by the Database Specialist to simulate a failure event?",
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20,
+        body: Consumer<FreeTestProvider>(
+          builder: (context, provider, child) {
+            final currentQuestion = questions[provider.currentQuestionIndex];
+            final currentAnswers = answers[provider.currentQuestionIndex];
+            return Column(
+              children: [
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                  child: Text(
+                    currentQuestion,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
+                    ),
+                  ),
                 ),
-              ),
-            ),
-            const Expanded(
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20),
-                child: SingleChildScrollView(
-                  child: Column(
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: currentAnswers.length,
+                    itemBuilder: (context, index) {
+                      final isSelected = provider.isAnswerSelected(index);
+                      return GestureDetector(
+                        onTap: () {
+                          provider.selectAnswer(index);
+                        },
+                        child: Container(
+                          margin: const EdgeInsets.symmetric(
+                              vertical: 10, horizontal: 20),
+                          padding: const EdgeInsets.all(20),
+                          decoration: BoxDecoration(
+                            color: isSelected ? Colors.blue : Colors.white,
+                            border: Border.all(
+                              color: isSelected ? Colors.blue : Colors.grey,
+                            ),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Text(
+                            currentAnswers[index],
+                            style: TextStyle(
+                              color: isSelected ? Colors.white : Colors.black,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      FreeTestAnswers(
-                        title: "He should use AWS DMS.",
+                      GestureDetector(
+                        onTap: provider.previousQuestion,
+                        child: const Icon(
+                          Icons.arrow_back_ios_new_sharp,
+                          size: 30,
+                        ),
                       ),
-                      FreeTestAnswers(
-                        title: "He should use AWS DMS.",
-                      ),
-                      FreeTestAnswers(
-                        title: "He should use AWS DMS.",
-                      ),
-                      FreeTestAnswers(
-                        title: "He should use AWS DMS.",
+                      GestureDetector(
+                        onTap: provider.nextQuestion,
+                        child: const Icon(
+                          Icons.arrow_forward_ios,
+                          size: 30,
+                        ),
                       ),
                     ],
                   ),
                 ),
-              ),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            ProgressLine(
-              width: MediaQuery.of(context).size.width,
-              progress: _progress,
-              innerColor: const Color.fromARGB(124, 255, 0, 0),
-              outerColor: primaryColor,
-            ),
-            Container(
-              height: 80,
-              width: MediaQuery.of(context).size.width,
-              color: Colors.white,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    GestureDetector(
-                      onTap: () {},
-                      child: const Icon(
-                        Icons.arrow_back_ios_new_sharp,
-                        size: 30,
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: () {},
-                      child: const Icon(
-                        Icons.bookmark_border,
-                        size: 30,
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: () {},
-                      child: const Icon(
-                        Icons.arrow_forward_ios,
-                        size: 30,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
+              ],
+            );
+          },
         ),
       ),
     );

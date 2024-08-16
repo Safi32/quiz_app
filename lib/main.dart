@@ -1,5 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:quiz_app/controllers/topics_controller.dart';
+import 'package:quiz_app/provider/free_test_provider.dart';
 import 'package:quiz_app/view/screens/auth_screen/login.dart';
 import 'package:quiz_app/view/screens/auth_screen/signup.dart';
 import 'package:quiz_app/view/screens/choose_your_plan/choose_your_plan.dart';
@@ -14,17 +17,39 @@ import 'package:quiz_app/view/screens/subscription_screen/subscription_screen.da
 import 'package:quiz_app/view/screens/ten_questions/ten_questions.dart';
 import 'package:quiz_app/view/screens/timed_quiz/timed_quiz.dart';
 import 'package:quiz_app/view/screens/todays_question/todays_questions.dart';
+import 'package:quiz_app/widgets/select_topic.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+
+  TopicController topicController = TopicController();
+
+  topicController.addTopic("Maths");
+  // _topicController.addTopic("Phy");
+  // _topicController.addTopic("Bio");
+
+  // Fetching all topics
+// List<TopicModel> topics = await _topicController.fetchTopics();
+
+// Updating a topic
+  // _topicController.updateTopic("topicId", "Physics", "newRandomId");
+
+  // _topicController.deleteTopic("aa96d5cd-9c5b-4aff-8606-e9afcbca1d10");
+
   runApp(
-    const MyApp(),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => FreeTestProvider()),
+      ],
+      child: const MyApp(),
+    ),
   );
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -42,7 +67,7 @@ class MyApp extends StatelessWidget {
         SignUpScreen.routeName: (context) => SignUpScreen(),
         SettingScreen.routeName: (context) => const SettingScreen(),
         SubscriptionScreen.routeName: (context) => const SubscriptionScreen(),
-        FreeTest.routeName: (context) => const FreeTest(),
+        FreeTest.routeName: (context) => FreeTest(),
         ChooseYourPlan.routeName: (context) => const ChooseYourPlan(),
         PaymentScreen.routeName: (context) => const PaymentScreen(),
         TenQuestions.routeName: (context) => TenQuestions(),
@@ -51,6 +76,7 @@ class MyApp extends StatelessWidget {
         TimedQuiz.routeName: (context) => const TimedQuiz(),
         MissedQuestions.routeName: (context) => MissedQuestions(),
         TodaysQuestions.routeName: (context) => TodaysQuestions(),
+        SelectTopic.routeName: (context) => SelectTopic(),
       },
     );
   }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class FreeTestAnswers extends StatelessWidget {
-  const FreeTestAnswers({super.key, required this.title});
+  const FreeTestAnswers({super.key, required this.title, required bool isSelected, required Null Function() onTap});
 
   final String title;
 

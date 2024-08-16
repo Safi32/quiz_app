@@ -11,6 +11,7 @@ class CardWidget extends StatefulWidget {
   final bool datePicker;
   final VoidCallback? onTap;
   final Widget? subtitle;
+  final VoidCallback? onPressed;
 
   const CardWidget({
     required this.title,
@@ -22,6 +23,7 @@ class CardWidget extends StatefulWidget {
     this.datePicker = false,
     this.onTap,
     this.subtitle,
+    this.onPressed,
   });
 
   @override
@@ -87,12 +89,15 @@ class _CardWidgetState extends State<CardWidget> {
                     if (widget.showText &&
                         !widget.datePicker &&
                         widget.subtitle == null)
-                      const Text(
-                        'Exam-style',
-                        style: TextStyle(
-                          fontSize: 15,
-                          color: primaryColor,
-                          fontWeight: FontWeight.bold,
+                      InkWell(
+                        onTap: widget.onPressed,
+                        child: const Text(
+                          'Exam-style',
+                          style: TextStyle(
+                            fontSize: 15,
+                            color: primaryColor,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                     if (widget.subtitle != null) widget.subtitle!,
@@ -100,9 +105,7 @@ class _CardWidgetState extends State<CardWidget> {
                       GestureDetector(
                         onTap: () => _selectDate(context),
                         child: const Row(
-                          children: [
-                            //
-                          ],
+                          children: [],
                         ),
                       ),
                     const SizedBox(
