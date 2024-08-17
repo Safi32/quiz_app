@@ -1,7 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:quiz_app/controllers/topics_controller.dart';
 import 'package:quiz_app/provider/free_test_provider.dart';
 import 'package:quiz_app/services/topic_services.dart';
 import 'package:quiz_app/view/screens/auth_screen/login.dart';
@@ -24,7 +23,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
 
- final topicService = TopicService();
+  final topicService = TopicService();
   await topicService.initializeTopics();
 
   runApp(

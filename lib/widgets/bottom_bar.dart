@@ -35,8 +35,8 @@ class _BottomBarState extends State<BottomBar> {
             label: "Stats",
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.stacked_line_chart_sharp),
-            label: "Stats",
+            icon: Icon(Icons.rate_review_outlined),
+            label: "Review",
           ),
         ],
         currentIndex: _selectedIndex,

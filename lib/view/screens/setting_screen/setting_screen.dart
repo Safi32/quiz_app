@@ -1,6 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:quiz_app/utils/colors.dart';
+import 'package:quiz_app/view/screens/auth_screen/login.dart';
 import 'package:quiz_app/view/screens/fetch_topics/fetch_topics.dart';
 import 'package:quiz_app/widgets/card.dart';
 
@@ -29,7 +31,6 @@ class _SettingScreenState extends State<SettingScreen> {
             },
             child: const Icon(
               Icons.arrow_back_ios_new,
-              color: Colors.blue,
             ),
           ),
         ),
@@ -102,7 +103,10 @@ class _SettingScreenState extends State<SettingScreen> {
                 padding: const EdgeInsets.only(left: 20, right: 20),
                 child: Column(
                   children: [
-                    const CardWidget(
+                    CardWidget(
+                      onPressed: () {
+                        Navigator.pushNamed(context, FetchTopics.routeName);
+                      },
                       title: "Certified Database-Specialty",
                       color: Colors.black,
                     ),
@@ -110,7 +114,7 @@ class _SettingScreenState extends State<SettingScreen> {
                       title: "Exam date",
                       color: Colors.black,
                       showIcon: true,
-                      onTap: _pickDate,
+                      onPressed: _pickDate,
                       // ignore: unnecessary_null_comparison
                       subtitle: _selectedDate != null
                           ? Text(
@@ -123,11 +127,11 @@ class _SettingScreenState extends State<SettingScreen> {
                             )
                           : null,
                     ),
-                    const CardWidget(
-                      title: "Reset progress",
-                      color: primaryColor,
-                      showIcon: false,
-                    ),
+                    // const CardWidget(
+                    //   title: "Reset progress",
+                    //   color: primaryColor,
+                    //   showIcon: false,
+                    // ),
                   ],
                 ),
               ),
@@ -145,23 +149,24 @@ class _SettingScreenState extends State<SettingScreen> {
                 padding: const EdgeInsets.only(left: 20, right: 20, top: 20),
                 child: Column(
                   children: [
-                    CardWidget(
-                      onPressed: () {
-                        Navigator.pushNamed(context, FetchTopics.routeName);
-                      },
-                      title: "Exam mode",
-                      color: Colors.black,
-                      showText: true,
-                    ),
+                    // CardWidget(
+                    //   title: "Exam mode",
+                    //   color: Colors.black,
+                    //   showText: true,
+                    // ),
                     const CardWidget(
                       title: "Vibration",
                       color: Colors.black,
                       showIcon: false,
                       showToggle: true,
                     ),
-                    const CardWidget(
-                      title: "Text size",
+                    CardWidget(
+                      title: "Logout",
                       color: Colors.black,
+                      onPressed: () async {
+                        Navigator.pushNamed(context, LoginScreen.routeName);
+                        await FirebaseAuth.instance.signOut();
+                      },
                     ),
                   ],
                 ),

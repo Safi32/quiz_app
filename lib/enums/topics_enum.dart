@@ -1,10 +1,4 @@
-enum Topic {
-  maths,
-  phy,
-  bio,
-  chem,
-  coding,
-}
+enum Topic { maths, phy, bio, chem, coding, computer, urdu }
 
 extension TopicExtension on Topic {
   String get name {
@@ -15,6 +9,14 @@ extension TopicExtension on Topic {
         return 'Physics';
       case Topic.bio:
         return 'Biology';
+      case Topic.chem:
+        return 'Chemistry';
+      case Topic.coding:
+        return 'Coding';
+      case Topic.computer:
+        return 'Computer';
+      case Topic.urdu:
+        return 'Urdu';
       default:
         return '';
     }

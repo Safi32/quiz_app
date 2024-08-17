@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:quiz_app/controllers/topics_controller.dart'; 
-import 'package:quiz_app/model/topics_model.dart'; 
+import 'package:quiz_app/controllers/topics_controller.dart';
+import 'package:quiz_app/model/topics_model.dart';
 import 'package:quiz_app/utils/colors.dart';
 
 class FetchTopics extends StatelessWidget {
@@ -8,13 +8,10 @@ class FetchTopics extends StatelessWidget {
 
   const FetchTopics({super.key});
 
-  Future<List<TopicModel>> _fetchTopics() async {
-    final topicController = TopicController();
-    return await topicController.fetchTopics();
-  }
-
   @override
   Widget build(BuildContext context) {
+    final topicController = TopicController();
+
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -60,8 +57,8 @@ class FetchTopics extends StatelessWidget {
               ),
               const SizedBox(height: 20), // Add space between container and list
               Expanded(
-                child: FutureBuilder<List<TopicModel>>(
-                  future: _fetchTopics(),
+                child: StreamBuilder<List<TopicModel>>(
+                  stream: topicController.getTopicsStream(),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return const Center(child: CircularProgressIndicator());
@@ -78,7 +75,7 @@ class FetchTopics extends StatelessWidget {
                           return Card(
                             margin: const EdgeInsets.symmetric(vertical: 10),
                             child: ListTile(
-                              title: Text(topic.name), 
+                              title: Text(topic.name),
                             ),
                           );
                         },

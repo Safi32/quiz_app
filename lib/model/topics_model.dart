@@ -1,23 +1,19 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class TopicModel {
+  final String id;
   final String name;
-  final String topicID;
+  final String topicID; 
 
-  TopicModel({
-    required this.name,
-    required this.topicID,
-  });
+  TopicModel({required this.id, required this.name, required this.topicID});
 
-  Map<String, dynamic> toMap() {
-    return {
-      'name': name,
-      'topicID': topicID,
-    };
-  }
+  factory TopicModel.fromFirestore(DocumentSnapshot doc) {
+    Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
 
-  factory TopicModel.fromMap(Map<String, dynamic> map) {
     return TopicModel(
-      name: map['name'] ?? '',
-      topicID: map['topicID'] ?? '',
+      id: doc.id,
+      name: data['name'] ?? '',
+      topicID: data['topicID'] ?? '', // Retrieve the random topic ID
     );
   }
 }

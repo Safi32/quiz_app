@@ -9,11 +9,12 @@ class CardWidget extends StatefulWidget {
   final bool initialToggleState;
   final bool showText;
   final bool datePicker;
-  final VoidCallback? onTap;
+
   final Widget? subtitle;
   final VoidCallback? onPressed;
 
   const CardWidget({
+    super.key,
     required this.title,
     this.showIcon = true,
     required this.color,
@@ -21,7 +22,6 @@ class CardWidget extends StatefulWidget {
     this.initialToggleState = false,
     this.showText = false,
     this.datePicker = false,
-    this.onTap,
     this.subtitle,
     this.onPressed,
   });
@@ -65,11 +65,12 @@ class _CardWidgetState extends State<CardWidget> {
     return SizedBox(
       height: 60,
       width: MediaQuery.of(context).size.width,
-      child: GestureDetector(
-        onTap: widget.onTap,
-        child: Card(
-          color: Colors.white,
-          margin: const EdgeInsets.all(0),
+      child: Card(
+        color: Colors.white,
+        margin: const EdgeInsets.all(0),
+        child: InkWell(
+          onTap:
+              widget.datePicker ? () => _selectDate(context) : widget.onPressed,
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: Row(
@@ -89,23 +90,30 @@ class _CardWidgetState extends State<CardWidget> {
                     if (widget.showText &&
                         !widget.datePicker &&
                         widget.subtitle == null)
-                      InkWell(
-                        onTap: widget.onPressed,
-                        child: const Text(
-                          'Exam-style',
-                          style: TextStyle(
-                            fontSize: 15,
-                            color: primaryColor,
-                            fontWeight: FontWeight.bold,
-                          ),
+                      const Text(
+                        'Exam-style',
+                        style: TextStyle(
+                          fontSize: 15,
+                          color: primaryColor,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                     if (widget.subtitle != null) widget.subtitle!,
                     if (widget.datePicker)
                       GestureDetector(
                         onTap: () => _selectDate(context),
-                        child: const Row(
-                          children: [],
+                        child: Row(
+                          children: [
+                            Text(
+                              "${selectedDate.toLocal()}".split(' ')[0],
+                              style: const TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                                color: primaryColor,
+                              ),
+                            ),
+                            const SizedBox(width: 5),
+                          ],
                         ),
                       ),
                     const SizedBox(
