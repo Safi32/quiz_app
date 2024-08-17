@@ -30,6 +30,7 @@ void main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => FreeTestProvider()),
+        
       ],
       child: const MyApp(),
     ),
