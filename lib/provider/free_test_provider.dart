@@ -1,32 +1,34 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 
-class FreeTestProvider extends ChangeNotifier {
-  int _currentQuestionIndex = 0;
-  final Map<int, int> _selectedAnswers = {};
+class OptionProvider extends ChangeNotifier {
+  int _currentIndex = 0;
+  int _totalQuestions = 0;
+  final Map<int, String?> _selectedOptions = {};
 
-  int get currentQuestionIndex => _currentQuestionIndex;
-  Map<int, int> get selectedAnswers => _selectedAnswers;
+  int get currentIndex => _currentIndex;
+  int get totalQuestions => _totalQuestions;
 
-  void selectAnswer(int answerIndex) {
-    _selectedAnswers[_currentQuestionIndex] = answerIndex;
+  String? getSelectedOption(int index) => _selectedOptions[index];
+
+  void selectOption(int index, String option) {
+    _selectedOptions[index] = option;
     notifyListeners();
   }
 
-  void nextQuestion() {
-    if (_currentQuestionIndex < 29) {
-      _currentQuestionIndex++;
+  void goToNextQuestion() {
+    _currentIndex++;
+    notifyListeners();
+  }
+
+  void goToPreviousQuestion() {
+    if (_currentIndex > 0) {
+      _currentIndex--;
       notifyListeners();
     }
   }
 
-  void previousQuestion() {
-    if (_currentQuestionIndex > 0) {
-      _currentQuestionIndex--;
-      notifyListeners();
-    }
-  }
-
-  bool isAnswerSelected(int answerIndex) {
-    return _selectedAnswers[_currentQuestionIndex] == answerIndex;
+  void setTotalQuestions(int total) {
+    _totalQuestions = total;
+    notifyListeners();
   }
 }

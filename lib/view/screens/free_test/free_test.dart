@@ -1,136 +1,267 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:quiz_app/controllers/mcq_controller.dart';
+import 'package:quiz_app/model/mcqs_model.dart';
 import 'package:quiz_app/provider/free_test_provider.dart';
+import 'package:quiz_app/utils/colors.dart'; // Import your colors
 
 class FreeTest extends StatelessWidget {
-  static const routeName = "FreeTest";
-
-  final List<String> questions =
-      List.generate(30, (index) => "Question ${index + 1}");
-  final List<List<String>> answers = List.generate(
-    30,
-    (index) => [
-      "Answer 1 for Question ${index + 1}",
-      "Answer 2 for Question ${index + 1}",
-      "Answer 3 for Question ${index + 1}",
-      "Answer 4 for Question ${index + 1}",
-    ],
-  );
+  static const routeName = '/free-test';
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => FreeTestProvider(),
-      child: Scaffold(
+    final topicName = ModalRoute.of(context)?.settings.arguments as String?;
+    final mcqController = Provider.of<MCQController>(context);
+    final optionProvider = Provider.of<OptionProvider>(context);
+
+    if (topicName == null) {
+      return Scaffold(
         appBar: AppBar(
-          title: Consumer<FreeTestProvider>(
-            builder: (context, provider, child) {
-              return Text(
-                "Question ${provider.currentQuestionIndex + 1}/30",
-                style: const TextStyle(
-                  color: Colors.grey,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18,
-                ),
-              );
-            },
-          ),
+          title: const Text('Free Test'),
           centerTitle: true,
-          leading: GestureDetector(
-            onTap: () {
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back_ios_new_sharp),
+            onPressed: () {
               Navigator.pop(context);
             },
-            child: const Icon(
-              Icons.close,
+          ),
+        ),
+        body: const Center(
+          child: Text(
+            'Please Select a Topic',
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
             ),
           ),
-          actions: const [
-            Padding(
-              padding: EdgeInsets.all(12.0),
-              child: Icon(
-                Icons.more_vert_outlined,
-              ),
-            ),
-          ],
         ),
-        body: Consumer<FreeTestProvider>(
+      );
+    }
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Consumer<OptionProvider>(
           builder: (context, provider, child) {
-            final currentQuestion = questions[provider.currentQuestionIndex];
-            final currentAnswers = answers[provider.currentQuestionIndex];
-            return Column(
-              children: [
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                  child: Text(
-                    currentQuestion,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20,
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: currentAnswers.length,
-                    itemBuilder: (context, index) {
-                      final isSelected = provider.isAnswerSelected(index);
-                      return GestureDetector(
-                        onTap: () {
-                          provider.selectAnswer(index);
-                        },
-                        child: Container(
-                          margin: const EdgeInsets.symmetric(
-                              vertical: 10, horizontal: 20),
-                          padding: const EdgeInsets.all(20),
-                          decoration: BoxDecoration(
-                            color: isSelected ? Colors.blue : Colors.white,
-                            border: Border.all(
-                              color: isSelected ? Colors.blue : Colors.grey,
-                            ),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
+            return Text(
+              'Question ${provider.currentIndex + 1}/${provider.totalQuestions}',
+            );
+          },
+        ),
+        centerTitle: true,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios_new_sharp),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+      ),
+      body: StreamBuilder<List<MCQ>>(
+        stream: mcqController.fetchQuestions(topicName),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          }
+          if (!snapshot.hasData || snapshot.data!.isEmpty) {
+            return const Center(child: Text('No questions available'));
+          }
+
+          final mcqs = snapshot.data!;
+          final currentIndex = optionProvider.currentIndex;
+          final mcq = mcqs[currentIndex];
+          final selectedOption = optionProvider.getSelectedOption(currentIndex);
+
+          optionProvider.setTotalQuestions(mcqs.length);
+
+          return Column(
+            children: [
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 8.0, horizontal: 16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Card(
+                        color: Colors.white,
+                        elevation: 2.0,
+                        margin: const EdgeInsets.only(bottom: 8.0),
+                        child: Padding(
+                          padding: const EdgeInsets.all(12.0),
                           child: Text(
-                            currentAnswers[index],
-                            style: TextStyle(
-                              color: isSelected ? Colors.white : Colors.black,
+                            "Q${currentIndex + 1}: ${mcq.question}",
+                            style: const TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
                         ),
-                      );
-                    },
-                  ),
-                ),
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      GestureDetector(
-                        onTap: provider.previousQuestion,
-                        child: const Icon(
-                          Icons.arrow_back_ios_new_sharp,
-                          size: 30,
-                        ),
                       ),
-                      GestureDetector(
-                        onTap: provider.nextQuestion,
-                        child: const Icon(
-                          Icons.arrow_forward_ios,
-                          size: 30,
-                        ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: mcq.options.map((option) {
+                          final isSelected = option == selectedOption;
+                          return GestureDetector(
+                            onTap: () {
+                              optionProvider.selectOption(currentIndex, option);
+                            },
+                            child: Card(
+                              color: isSelected ? Colors.blue : Colors.white,
+                              elevation: 1.0,
+                              margin: const EdgeInsets.symmetric(vertical: 4.0),
+                              child: Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: Text(
+                                  option,
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    color: isSelected
+                                        ? Colors.white
+                                        : Colors.black,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          );
+                        }).toList(),
                       ),
                     ],
                   ),
                 ),
-              ],
-            );
-          },
-        ),
+              ),
+              if (optionProvider.currentIndex == mcqs.length - 1)
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 30,
+                  ),
+                  child: Align(
+                    alignment: Alignment.bottomRight,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        _handleSubmit(context, mcqs, optionProvider);
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: primaryColor,
+                      ),
+                      child: const Text(
+                        'Submit',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 16.0, horizontal: 8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    IconButton(
+                      icon: const Icon(
+                        Icons.arrow_back_ios_new_sharp,
+                      ),
+                      onPressed: optionProvider.currentIndex > 0
+                          ? () {
+                              optionProvider.goToPreviousQuestion();
+                            }
+                          : null,
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.bookmark_border),
+                      onPressed: () {
+                        _saveMissedQuestion(mcq);
+                      },
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.arrow_forward_ios_outlined),
+                      onPressed: optionProvider.currentIndex < mcqs.length - 1
+                          ? () {
+                              optionProvider.goToNextQuestion();
+                            }
+                          : null,
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          );
+        },
       ),
     );
+  }
+
+  Future<void> _handleSubmit(BuildContext context, List<MCQ> mcqs,
+      OptionProvider optionProvider) async {
+    final unansweredQuestions = mcqs
+        .where((mcq) =>
+            optionProvider.getSelectedOption(mcqs.indexOf(mcq)) == null)
+        .toList();
+
+    if (unansweredQuestions.isNotEmpty) {
+      final shouldContinue = await showDialog<bool>(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: const Text('Unanswered Questions'),
+            content: const Text(
+                'You have unanswered questions. Are you sure you want to continue?'),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(true),
+                child: const Text('Yes'),
+              ),
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(false),
+                child: const Text('No'),
+              ),
+            ],
+          );
+        },
+      );
+
+      if (shouldContinue ?? false) {
+        _saveMissedQuestions(unansweredQuestions);
+        Navigator.pushNamed(context, '/missed-questions');
+      }
+    } else {
+      Navigator.pushNamed(context, '/missed-questions');
+    }
+  }
+
+  void _saveMissedQuestion(MCQ mcq) async {
+    final firestore = FirebaseFirestore.instance;
+    try {
+      await firestore.collection('missed_questions').add({
+        'question': mcq.question,
+        'options': mcq.options,
+        'correctAnswer': mcq.answer,
+        'timestamp': FieldValue.serverTimestamp(),
+      });
+    } catch (e) {
+      print('Error saving missed question: $e');
+    }
+  }
+
+  void _saveMissedQuestions(List<MCQ> missedQuestions) async {
+    final firestore = FirebaseFirestore.instance;
+    try {
+      for (var mcq in missedQuestions) {
+        await firestore.collection('missed_questions').add({
+          'question': mcq.question,
+          'options': mcq.options,
+          'correctAnswer': mcq.answer,
+          'timestamp': FieldValue.serverTimestamp(),
+        });
+      }
+    } catch (e) {
+      print('Error saving missed questions: $e');
+    }
   }
 }

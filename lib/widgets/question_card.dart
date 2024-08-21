@@ -1,50 +1,45 @@
 import 'package:flutter/material.dart';
+
 import 'package:quiz_app/view/screens/questions/questions.dart';
 
 class QuestionCard extends StatelessWidget {
-  const QuestionCard({
-    super.key,
-    required this.question,
-  });
-
   final Question question;
+
+  const QuestionCard({
+    required this.question,
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 20,
-      ),
-      child: SizedBox(
-        height: MediaQuery.of(context).size.height / 4.4,
-        width: MediaQuery.of(context).size.width,
-        child: Card(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 10,
-              vertical: 15,
+    return Card(
+      elevation: 2.0,
+      margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+      child: Padding(
+        padding: const EdgeInsets.all(12.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Text(
+              question.question,
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
             ),
-            child: Column(
-              children: [
-                Text(
-                  question.question,
+            const SizedBox(height: 10),
+            ...question.options.map((option) {
+              return Padding(
+                padding: const EdgeInsets.only(bottom: 8.0),
+                child: Text(
+                  option,
                   style: const TextStyle(
                     fontSize: 16,
-                    fontWeight: FontWeight.bold,
                   ),
                 ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Text(
-                  question.answer,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.w400,
-                  ),
-                )
-              ],
-            ),
-          ),
+              );
+            }).toList(),
+          ],
         ),
       ),
     );

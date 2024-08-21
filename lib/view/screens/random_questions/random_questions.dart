@@ -1,131 +1,180 @@
+// lib/screens/random_questions.dart
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:quiz_app/controllers/random_question_controller.dart';
+import 'package:quiz_app/model/random_question.dart';
 import 'package:quiz_app/utils/colors.dart';
-import 'package:quiz_app/view/screens/questions/questions.dart';
-import 'package:quiz_app/widgets/question_card.dart';
 
 class RandomQuestions extends StatelessWidget {
   static const routeName = "randomQuestion";
-  RandomQuestions({super.key});
-
-  final List<Question> question = [
-    Question(
-      question:
-          "While performing the compliance procedure, a Database Specialist requires to conduct fault testing on an Amazon RDS for MySQL running in the Multi-AZ deployments configuration.",
-      answer:
-          "The test will assess the resiliency of the database in the event of DB instance failure and availability zone disruption.",
-    ),
-    Question(
-      question:
-          "While performing the compliance procedure, a Database Specialist requires to conduct fault testing on an Amazon RDS for MySQL running in the Multi-AZ deployments configuration.",
-      answer:
-          "The test will assess the resiliency of the database in the event of DB instance failure and availability zone disruption.",
-    ),
-    Question(
-      question:
-          "While performing the compliance procedure, a Database Specialist requires to conduct fault testing on an Amazon RDS for MySQL running in the Multi-AZ deployments configuration.",
-      answer:
-          "The test will assess the resiliency of the database in the event of DB instance failure and availability zone disruption.",
-    ),
-    Question(
-      question:
-          "While performing the compliance procedure, a Database Specialist requires to conduct fault testing on an Amazon RDS for MySQL running in the Multi-AZ deployments configuration.",
-      answer:
-          "The test will assess the resiliency of the database in the event of DB instance failure and availability zone disruption.",
-    ),
-    Question(
-      question:
-          "While performing the compliance procedure, a Database Specialist requires to conduct fault testing on an Amazon RDS for MySQL running in the Multi-AZ deployments configuration.",
-      answer:
-          "The test will assess the resiliency of the database in the event of DB instance failure and availability zone disruption.",
-    ),
-    Question(
-      question:
-          "While performing the compliance procedure, a Database Specialist requires to conduct fault testing on an Amazon RDS for MySQL running in the Multi-AZ deployments configuration.",
-      answer:
-          "The test will assess the resiliency of the database in the event of DB instance failure and availability zone disruption.",
-    ),
-    Question(
-      question:
-          "While performing the compliance procedure, a Database Specialist requires to conduct fault testing on an Amazon RDS for MySQL running in the Multi-AZ deployments configuration.",
-      answer:
-          "The test will assess the resiliency of the database in the event of DB instance failure and availability zone disruption.",
-    ),
-    Question(
-      question:
-          "While performing the compliance procedure, a Database Specialist requires to conduct fault testing on an Amazon RDS for MySQL running in the Multi-AZ deployments configuration.",
-      answer:
-          "The test will assess the resiliency of the database in the event of DB instance failure and availability zone disruption.",
-    ),
-  ];
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: Colors.white,
-        appBar: AppBar(
-          title: const Text(
-            "Random Questions",
-          ),
-          centerTitle: true,
-          elevation: 0,
-          leading: InkWell(
-            onTap: () {
-              Navigator.pop(context);
-            },
-            child: const Icon(
-              Icons.close,
-              color: Colors.grey,
-            ),
-          ),
-        ),
-        body: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 20,
-                vertical: 20,
+    return ChangeNotifierProvider(
+      create: (context) => RandomQuestionsController(),
+      child: Consumer<RandomQuestionsController>(
+        builder: (context, controller, child) {
+          return Scaffold(
+            appBar: AppBar(
+              title: Text(
+                'Question ${controller.currentIndex + 1}/${controller.questions.length}',
               ),
-              child: Container(
-                height: 120,
-                width: MediaQuery.of(context).size.width,
-                decoration: BoxDecoration(
-                  color: primaryColor,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: const Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 30,
-                    vertical: 30,
-                  ),
-                  child: Text(
-                    "Random Question",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 25,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            Expanded(
-              child: ListView.builder(
-                itemCount: question.length,
-                itemBuilder: (context, index) {
-                  return Column(
-                    children: [
-                      QuestionCard(question: question[index]),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                    ],
-                  );
+              centerTitle: true,
+              leading: IconButton(
+                icon: const Icon(Icons.close),
+                onPressed: () {
+                  Navigator.pop(context);
                 },
               ),
             ),
-          ],
-        ),
+            body: StreamBuilder<List<RandomQuestion>>(
+              stream: controller.fetchRandomQuestions(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                }
+                if (snapshot.hasError) {
+                  return Center(child: Text('Error: ${snapshot.error}'));
+                }
+                if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                  return const Center(child: Text('No questions available'));
+                }
+
+                // Set questions to controller if not already set
+                if (controller.questions.isEmpty) {
+                  controller.setQuestions(snapshot.data!);
+                }
+
+                final currentQuestion =
+                    controller.questions[controller.currentIndex];
+                final totalQuestions = controller.questions.length;
+                final selectedOption =
+                    controller.getSelectedOption(controller.currentIndex);
+
+                return Column(
+                  children: [
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 8.0, horizontal: 16.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            Card(
+                              color: Colors.white,
+                              elevation: 2.0,
+                              margin: const EdgeInsets.only(bottom: 8.0),
+                              child: Padding(
+                                padding: const EdgeInsets.all(12.0),
+                                child: Text(
+                                  "Q${controller.currentIndex + 1}: ${currentQuestion.question}",
+                                  style: const TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: currentQuestion.options.map((option) {
+                                final isSelected = option == selectedOption;
+                                return GestureDetector(
+                                  onTap: () {
+                                    controller.selectOption(
+                                        controller.currentIndex, option);
+                                  },
+                                  child: Card(
+                                    color:
+                                        isSelected ? Colors.blue : Colors.white,
+                                    elevation: 1.0,
+                                    margin: const EdgeInsets.symmetric(
+                                        vertical: 4.0),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(10.0),
+                                      child: Text(
+                                        option,
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          color: isSelected
+                                              ? Colors.white
+                                              : Colors.black,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              }).toList(),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    if (controller.currentIndex == totalQuestions - 1)
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 30),
+                        child: Align(
+                          alignment: Alignment.bottomRight,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              // Implement submit logic here if required
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: primaryColor,
+                            ),
+                            child: const Text(
+                              'Submit',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 16.0, horizontal: 8.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          IconButton(
+                            icon: const Icon(Icons.arrow_back_ios_new_sharp),
+                            onPressed: controller.currentIndex > 0
+                                ? () {
+                                    controller.previousQuestion();
+                                  }
+                                : null,
+                          ),
+                          IconButton(
+                            icon: const Icon(Icons.bookmark_border),
+                            onPressed: () {
+                              controller.bookmarkQuestion();
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                    content: Text('Question bookmarked')),
+                              );
+                            },
+                          ),
+                          IconButton(
+                            icon: const Icon(Icons.arrow_forward_ios_outlined),
+                            onPressed:
+                                controller.currentIndex < totalQuestions - 1
+                                    ? () {
+                                        controller.nextQuestion();
+                                      }
+                                    : null,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                );
+              },
+            ),
+          );
+        },
       ),
     );
   }
