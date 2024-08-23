@@ -22,6 +22,8 @@ import 'package:quiz_app/view/screens/setting_screen/setting_screen.dart';
 import 'package:quiz_app/view/screens/subscription_screen/subscription_screen.dart';
 import 'package:quiz_app/view/screens/ten_questions/ten_questions.dart';
 import 'package:quiz_app/view/screens/timed_quiz/timed_quiz.dart';
+import 'package:quiz_app/view/screens/todays_question/todays_questions.dart';
+import 'package:quiz_app/model/quiz_model.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -31,10 +33,13 @@ void main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => TenQuestionsController()),
-        ChangeNotifierProvider(create: (_) => OptionProvider()),
-        ChangeNotifierProvider(create: (_) => SelectedTopicProvider()),
-        ChangeNotifierProvider(create: (_) => MCQController()),
-        Provider(create: (_) => TopicController()),
+        ChangeNotifierProvider(create: (context) => OptionProvider()),
+        ChangeNotifierProvider(create: (context) => SelectedTopicProvider()),
+        ChangeNotifierProvider(create: (context) => MCQController()),
+        ChangeNotifierProvider(create: (context) => OptionProvider()),
+        ChangeNotifierProvider(create: (context) => SelectedTopicProvider()), 
+        ChangeNotifierProvider(create: (context) => QuizModel()), 
+        Provider(create: (context) => TopicController()),
       ],
       child: const MyApp(),
     ),
@@ -70,7 +75,7 @@ class MyApp extends StatelessWidget {
         SaveQuestion.routeName: (context) => const SaveQuestion(),
         TimedQuiz.routeName: (context) => const TimedQuiz(),
         MissedQuestions.routeName: (context) => const MissedQuestions(),
-        // TodaysQuestions.routeName: (context) => TodaysQuestions(),
+        TodaysQuestions.routeName: (context) => const TodaysQuestions(),
         FetchTopics.routeName: (context) => const FetchTopics(),
       },
     );

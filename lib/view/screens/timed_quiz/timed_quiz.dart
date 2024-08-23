@@ -1,50 +1,107 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:quiz_app/controllers/quiz_controller.dart';
+import 'package:quiz_app/model/quiz_model.dart';
 import 'package:quiz_app/utils/colors.dart';
 
-class TimedQuiz extends StatefulWidget {
+class TimedQuiz extends StatelessWidget {
   static const routeName = "timedQuiz";
+
   const TimedQuiz({super.key});
 
   @override
-  _TimedQuizState createState() => _TimedQuizState();
-}
-
-class _TimedQuizState extends State<TimedQuiz> {
-  int? selectedDuration;
-  String? selectedQuestion;
-  List<String> questions = [
-    'Question 1',
-    'Question 2',
-    'Question 3',
-    'Question 4',
-  ];
-  late Timer _timer;
-  String _formattedTime = '';
-
-  @override
-  void initState() {
-    super.initState();
-    _startClock();
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        leading: InkWell(
+          onTap: () {
+            Navigator.pop(context);
+          },
+          child: const Icon(Icons.close),
+        ),
+      ),
+      body: Consumer<QuizModel>(
+        builder: (context, quizModel, child) {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              if (quizModel.remainingTime > 0) ...[
+                Container(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+                  child: Text(
+                    'Time Remaining: ${quizModel.remainingTime} seconds',
+                    style: const TextStyle(
+                      fontSize: 18,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 20),
+              ],
+              Expanded(
+                child: quizModel.remainingTime > 0
+                    ? quizModel.currentQuestion.isNotEmpty
+                        ? Card(
+                            color: Colors.white,
+                            margin: const EdgeInsets.all(16.0),
+                            child: Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    quizModel.currentQuestion['question'] ?? '',
+                                    style: const TextStyle(fontSize: 24),
+                                  ),
+                                  const SizedBox(height: 20),
+                                  ..._buildOptions(
+                                      context,
+                                      quizModel.currentQuestion['options'] ??
+                                          {}),
+                                ],
+                              ),
+                            ),
+                          )
+                        : const Center(
+                            child: Text(
+                              'No Questions Available',
+                              style: TextStyle(fontSize: 24),
+                            ),
+                          )
+                    : Center(
+                        child: ElevatedButton(
+                          onPressed: () => _showQuizDialog(context),
+                          child: const Text('Start Quiz'),
+                        ),
+                      ),
+              ),
+              BottomAppBar(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    IconButton(
+                      icon: const Icon(Icons.arrow_back_ios_new_sharp),
+                      onPressed: () {
+                        QuizController.previousQuestion(context);
+                      },
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.arrow_forward_ios),
+                      onPressed: () {
+                        QuizController.nextQuestion(context);
+                      },
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          );
+        },
+      ),
+    );
   }
 
-  void _startClock() {
-    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      final now = DateTime.now();
-      setState(() {
-        _formattedTime = '${now.hour}:${now.minute}:${now.second}';
-      });
-    });
-  }
-
-  @override
-  void dispose() {
-    _timer.cancel();
-    super.dispose();
-  }
-
-  void _showQuizDialog() {
+  void _showQuizDialog(BuildContext context) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -66,7 +123,7 @@ class _TimedQuizState extends State<TimedQuiz> {
                     vertical: 15,
                   ),
                   child: Text(
-                    'Select Duration and Question',
+                    'Select Duration and Number of Questions',
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.w400,
@@ -83,11 +140,8 @@ class _TimedQuizState extends State<TimedQuiz> {
                     color: Colors.black,
                   ),
                 ),
-                value: selectedDuration,
                 onChanged: (int? newValue) {
-                  setState(() {
-                    selectedDuration = newValue;
-                  });
+                  QuizController.setDuration(context, newValue);
                 },
                 items: List.generate(61, (index) {
                   return DropdownMenuItem<int>(
@@ -99,25 +153,22 @@ class _TimedQuizState extends State<TimedQuiz> {
               const SizedBox(
                 height: 20,
               ),
-              DropdownButton<String>(
+              DropdownButton<int>(
                 hint: const Text(
-                  'Select Question',
+                  'Select Number of Questions',
                   style: TextStyle(
                     color: Colors.black,
                   ),
                 ),
-                value: selectedQuestion,
-                onChanged: (String? newValue) {
-                  setState(() {
-                    selectedQuestion = newValue;
-                  });
+                onChanged: (int? newValue) {
+                  QuizController.setQuestionCount(context, newValue);
                 },
-                items: questions.map((String question) {
-                  return DropdownMenuItem<String>(
-                    value: question,
-                    child: Text(question),
+                items: List.generate(16, (index) {
+                  return DropdownMenuItem<int>(
+                    value: index,
+                    child: Text(index.toString()),
                   );
-                }).toList(),
+                }),
               ),
               const SizedBox(height: 20),
             ],
@@ -136,16 +187,13 @@ class _TimedQuizState extends State<TimedQuiz> {
             ),
             TextButton(
               child: const Text(
-                'OK',
+                'Start Quiz',
                 style: TextStyle(
                   color: Colors.black,
                 ),
               ),
               onPressed: () {
-                if (selectedDuration != null && selectedQuestion != null) {
-                  print('Selected Duration: $selectedDuration seconds');
-                  print('Selected Question: $selectedQuestion');
-                }
+                QuizController.startQuiz(context);
                 Navigator.of(context).pop();
               },
             ),
@@ -155,25 +203,22 @@ class _TimedQuizState extends State<TimedQuiz> {
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        leading: InkWell(
+  List<Widget> _buildOptions(
+      BuildContext context, Map<String, dynamic> options) {
+    return options.entries.map((entry) {
+      final isSelected =
+          Provider.of<QuizModel>(context, listen: true).getSelectedOption() ==
+              entry.key;
+      return Card(
+        color: isSelected ? Colors.blue : Colors.white,
+        margin: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 16.0),
+        child: ListTile(
+          title: Text('${entry.key.toUpperCase()}: ${entry.value}'),
           onTap: () {
-            Navigator.pop(context);
+            QuizController.selectOption(context, entry.key);
           },
-          child: const Icon(
-            Icons.close,
-          ),
         ),
-      ),
-      body: Center(
-        child: ElevatedButton(
-          onPressed: _showQuizDialog,
-          child: const Text('Start Quiz'),
-        ),
-      ),
-    );
+      );
+    }).toList();
   }
 }
