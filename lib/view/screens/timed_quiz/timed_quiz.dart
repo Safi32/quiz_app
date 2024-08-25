@@ -31,9 +31,7 @@ class TimedQuiz extends StatelessWidget {
                       const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
                   child: Text(
                     'Time Remaining: ${quizModel.remainingTime} seconds',
-                    style: const TextStyle(
-                      fontSize: 18,
-                    ),
+                    style: const TextStyle(fontSize: 18),
                   ),
                 ),
                 const SizedBox(height: 20),
@@ -41,25 +39,19 @@ class TimedQuiz extends StatelessWidget {
               Expanded(
                 child: quizModel.remainingTime > 0
                     ? quizModel.currentQuestion.isNotEmpty
-                        ? Card(
-                            color: Colors.white,
-                            margin: const EdgeInsets.all(16.0),
-                            child: Padding(
-                              padding: const EdgeInsets.all(16.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    quizModel.currentQuestion['question'] ?? '',
-                                    style: const TextStyle(fontSize: 24),
-                                  ),
-                                  const SizedBox(height: 20),
-                                  ..._buildOptions(
-                                      context,
-                                      quizModel.currentQuestion['options'] ??
-                                          {}),
-                                ],
-                              ),
+                        ? Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  quizModel.currentQuestion['question'] ?? '',
+                                  style: const TextStyle(fontSize: 24),
+                                ),
+                                const SizedBox(height: 20),
+                                ..._buildOptions(context,
+                                    quizModel.currentQuestion['options'] ?? {}),
+                              ],
                             ),
                           )
                         : const Center(
@@ -75,6 +67,34 @@ class TimedQuiz extends StatelessWidget {
                         ),
                       ),
               ),
+              if (quizModel.isLastQuestion && quizModel.remainingTime > 0)
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: primaryColor,
+                    ),
+                    onPressed: () {
+                      if (quizModel.getSelectedOption() != null) {
+                        _submitQuiz(context);
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text(
+                                'Please select an option before submitting.'),
+                          ),
+                        );
+                      }
+                    },
+                    child: const Text(
+                      'Submit Quiz',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
               BottomAppBar(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -118,10 +138,7 @@ class TimedQuiz extends StatelessWidget {
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: const Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 15,
-                    vertical: 15,
-                  ),
+                  padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
                   child: Text(
                     'Select Duration and Number of Questions',
                     style: TextStyle(
@@ -136,9 +153,7 @@ class TimedQuiz extends StatelessWidget {
               DropdownButton<int>(
                 hint: const Text(
                   'Select Duration (seconds)',
-                  style: TextStyle(
-                    color: Colors.black,
-                  ),
+                  style: TextStyle(color: Colors.black),
                 ),
                 onChanged: (int? newValue) {
                   QuizController.setDuration(context, newValue);
@@ -150,15 +165,11 @@ class TimedQuiz extends StatelessWidget {
                   );
                 }),
               ),
-              const SizedBox(
-                height: 20,
-              ),
+              const SizedBox(height: 20),
               DropdownButton<int>(
                 hint: const Text(
                   'Select Number of Questions',
-                  style: TextStyle(
-                    color: Colors.black,
-                  ),
+                  style: TextStyle(color: Colors.black),
                 ),
                 onChanged: (int? newValue) {
                   QuizController.setQuestionCount(context, newValue);
@@ -177,9 +188,7 @@ class TimedQuiz extends StatelessWidget {
             TextButton(
               child: const Text(
                 'Cancel',
-                style: TextStyle(
-                  color: Colors.black,
-                ),
+                style: TextStyle(color: Colors.black),
               ),
               onPressed: () {
                 Navigator.of(context).pop();
@@ -188,9 +197,7 @@ class TimedQuiz extends StatelessWidget {
             TextButton(
               child: const Text(
                 'Start Quiz',
-                style: TextStyle(
-                  color: Colors.black,
-                ),
+                style: TextStyle(color: Colors.black),
               ),
               onPressed: () {
                 QuizController.startQuiz(context);
@@ -220,5 +227,10 @@ class TimedQuiz extends StatelessWidget {
         ),
       );
     }).toList();
+  }
+
+  void _submitQuiz(BuildContext context) {
+    // Implement quiz submission logic here
+    print('Quiz Submitted!');
   }
 }

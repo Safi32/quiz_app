@@ -1,4 +1,3 @@
-// lib/screens/random_questions.dart
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:quiz_app/controllers/random_question_controller.dart';
@@ -14,10 +13,14 @@ class RandomQuestions extends StatelessWidget {
       create: (context) => RandomQuestionsController(),
       child: Consumer<RandomQuestionsController>(
         builder: (context, controller, child) {
+          final currentIndex = controller.currentIndex;
+          final questions = controller.questions;
+          final totalQuestions = questions.length;
+
           return Scaffold(
             appBar: AppBar(
               title: Text(
-                'Question ${controller.currentIndex + 1}/${controller.questions.length}',
+                'Question ${currentIndex + 1}/$totalQuestions',
               ),
               centerTitle: true,
               leading: IconButton(
@@ -47,7 +50,6 @@ class RandomQuestions extends StatelessWidget {
 
                 final currentQuestion =
                     controller.questions[controller.currentIndex];
-                final totalQuestions = controller.questions.length;
                 final selectedOption =
                     controller.getSelectedOption(controller.currentIndex);
 

@@ -3,10 +3,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class TodaysQuestionModel {
   String? question;
   String? answer;
+  Timestamp? timestamp;
 
   TodaysQuestionModel({
-    required this.question,
-    required this.answer,
+    this.question,
+    this.answer,
+    this.timestamp,
   });
 
   // Convert a Firestore document to TodaysQuestionModel
@@ -15,14 +17,16 @@ class TodaysQuestionModel {
     return TodaysQuestionModel(
       question: data['Question'] as String?,
       answer: data['Answer'] as String?,
+      timestamp: data['timestamp'] as Timestamp?,
     );
   }
 
   // Convert TodaysQuestionModel to JSON
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['Question'] = question;
-    data['Answer'] = answer;
-    return data;
+    return {
+      'Question': question,
+      'Answer': answer,
+      'timestamp': timestamp,
+    };
   }
 }

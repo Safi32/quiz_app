@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 
@@ -7,6 +6,7 @@ class QuizModel with ChangeNotifier {
   int? _selectedDuration;
   int? _selectedQuestionCount;
   List<Map<String, dynamic>> _questions = [];
+  List<Map<String, dynamic>> _filteredQuestions = []; // Filtered questions
   int _currentQuestionIndex = 0;
   int _remainingTime = 0;
   Map<String, String?> _selectedOptions = {}; // Track selected options
@@ -15,7 +15,7 @@ class QuizModel with ChangeNotifier {
   int? get selectedQuestionCount => _selectedQuestionCount;
   int get remainingTime => _remainingTime;
   Map<String, dynamic> get currentQuestion =>
-      _questions.isNotEmpty ? _questions[_currentQuestionIndex] : {};
+      _filteredQuestions.isNotEmpty ? _filteredQuestions[_currentQuestionIndex] : {};
 
   void setDuration(int? duration) {
     _selectedDuration = duration;
@@ -24,6 +24,7 @@ class QuizModel with ChangeNotifier {
 
   void setQuestionCount(int? count) {
     _selectedQuestionCount = count;
+    _filterQuestions(); // Update the filtered questions
     notifyListeners();
   }
 
@@ -50,7 +51,16 @@ class QuizModel with ChangeNotifier {
         }
       };
     }).toList();
+    _filterQuestions(); // Filter questions after fetching
     notifyListeners();
+  }
+
+  void _filterQuestions() {
+    if (_selectedQuestionCount != null) {
+      _filteredQuestions = _questions.take(_selectedQuestionCount!).toList();
+    } else {
+      _filteredQuestions = _questions;
+    }
   }
 
   void _startTimer() {
@@ -67,7 +77,7 @@ class QuizModel with ChangeNotifier {
   }
 
   void nextQuestion() {
-    if (_currentQuestionIndex < (_questions.length - 1)) {
+    if (_currentQuestionIndex < (_filteredQuestions.length - 1)) {
       _currentQuestionIndex++;
       notifyListeners();
     }
@@ -80,12 +90,18 @@ class QuizModel with ChangeNotifier {
     }
   }
 
+  bool get isLastQuestion =>
+      _filteredQuestions.isNotEmpty &&
+      _currentQuestionIndex == _filteredQuestions.length - 1;
+
   void selectOption(String option) {
     _selectedOptions[_currentQuestionIndex.toString()] = option;
     notifyListeners();
   }
 
-  String? getSelectedOption() {
-    return _selectedOptions[_currentQuestionIndex.toString()];
-  }
+  String? getSelectedOption() =>
+      _selectedOptions[_currentQuestionIndex.toString()];
+
+  bool get hasSelectedOption =>
+      getSelectedOption() != null;
 }

@@ -43,8 +43,7 @@ class TenQuestions extends StatelessWidget {
                 return const Center(child: Text('No questions available'));
               }
 
-              final questions =
-                  snapshot.data!.take(10).toList(); // Limit to 10 questions
+              final questions = snapshot.data!.take(10).toList();
               final currentIndex =
                   Provider.of<OptionProvider>(context).currentIndex;
               final question = questions[currentIndex];
@@ -67,7 +66,7 @@ class TenQuestions extends StatelessWidget {
                             child: Padding(
                               padding: const EdgeInsets.all(12.0),
                               child: Text(
-                                "Q${currentIndex + 1}: ${question.question}",
+                                "Q${currentIndex}: ${question.question}",
                                 style: const TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
